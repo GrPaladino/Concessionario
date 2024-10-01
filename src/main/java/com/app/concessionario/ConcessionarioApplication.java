@@ -1,4 +1,4 @@
-package com.app.concessionario;
+package main.java.com.app.concessionario;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
