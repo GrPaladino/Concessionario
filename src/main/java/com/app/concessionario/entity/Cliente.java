@@ -29,4 +29,15 @@ public class Cliente {
     @Column(name = "telefono", length = 30)
     private String telefono;
 
+//    manyToOne con concessionario
+    @ManyToOne
+    @JoinColumn(name = "concessionarioId")
+    private Concessionario concessionario;
+
+//    oneToOne con Auto
+//    @OneToOne(mappedBy = "cliente")
+//    private Auto auto;
+
+
+
 }

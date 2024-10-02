@@ -3,6 +3,8 @@ package main.java.com.app.concessionario.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Set;
+
 @Entity
 @Table(name = "concessionari")
 @Getter
@@ -25,4 +27,12 @@ public class Concessionario {
 
     @Column(name = "p_iva", length = 11, nullable = false, unique = true)
     private String p_iva;
+
+//    oneToMany con Clienti
+    @OneToMany(mappedBy = "concessionario")
+    private Set<Cliente> clienti;
+
+    //    oneToMany con Auto
+    @OneToMany(mappedBy = "concessionario")
+    private Set<Auto> autos;
 }
