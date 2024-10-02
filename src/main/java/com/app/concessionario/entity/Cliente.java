@@ -31,7 +31,7 @@ public class Cliente {
 
 //    manyToOne con concessionario
     @ManyToOne
-    @JoinColumn(name = "concessionarioId")
+    @JoinColumn(name = "concessionario_id")
     private Concessionario concessionario;
 
 //    oneToOne con Auto
