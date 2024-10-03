@@ -29,6 +29,7 @@ public class MotoreService {
     }
 
     public void updateMotore(Integer id, Motore motore) {
+        motore.setId(id);
         motoreRepository.save(motore);
     }
 

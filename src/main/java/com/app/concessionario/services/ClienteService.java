@@ -28,6 +28,7 @@ public class ClienteService {
     }
 
     public void updateCliente(Integer id, Cliente cliente) {
+        cliente.setId(id);
         clienteRepository.save(cliente);
     }
 

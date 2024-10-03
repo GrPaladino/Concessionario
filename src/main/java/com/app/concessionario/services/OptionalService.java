@@ -27,6 +27,7 @@ public class OptionalService {
     }
 
     public void updateOptional(Integer id, Optional optional) {
+        optional.setId(id);
         optionalRepository.save(optional);
     }
 

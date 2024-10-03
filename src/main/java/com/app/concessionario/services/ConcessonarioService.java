@@ -29,6 +29,7 @@ public class ConcessonarioService {
     }
 
     public void updateConcessionario(Integer id, Concessionario concessionario) {
+        concessionario.setId(id);
         concessionarioRepository.save(concessionario);
     }
 

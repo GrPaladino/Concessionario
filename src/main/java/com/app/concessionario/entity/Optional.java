@@ -18,7 +18,7 @@ import java.util.List;
 public class Optional {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "nome", length = 100, nullable = false)

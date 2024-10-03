@@ -28,6 +28,7 @@ public class AutoService {
     }
 
     public void updateAuto(Integer id, Auto auto) {
+        auto.setId(id);
         autoRepository.save(auto);
     }
 

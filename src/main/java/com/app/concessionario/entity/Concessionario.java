@@ -2,6 +2,7 @@ package main.java.com.app.concessionario.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.util.Set;
 
@@ -16,7 +17,8 @@ import java.util.Set;
 public class Concessionario {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Integer id;
 
     @Column(name = "nome", length = 100, nullable = false)
