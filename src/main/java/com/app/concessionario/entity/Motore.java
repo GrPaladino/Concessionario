@@ -1,6 +1,7 @@
 package main.java.com.app.concessionario.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -33,8 +34,10 @@ public class Motore {
 
     //    manyToMany con Auto
     @ManyToMany
-    @JsonBackReference
+//    @JsonBackReference
+    @JsonIgnore
     @JoinTable(
+
             name = "automobile_motore",
             joinColumns = @JoinColumn(name = "automobile_id"),
             inverseJoinColumns = @JoinColumn(name = "motore_id")

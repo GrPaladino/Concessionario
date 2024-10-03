@@ -52,12 +52,12 @@ public class Auto {
 
 //    manyToMany con Motori
     @ManyToMany(mappedBy = "auto")
-    @JsonManagedReference
+//    @JsonManagedReference
     private List<Motore> motori;
 
     //    manyToMany con Optional
     @ManyToMany(mappedBy = "auto")
-    @JsonManagedReference
+//    @JsonManagedReference
     private List<Optional> optionals;
 
 }

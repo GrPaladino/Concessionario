@@ -1,6 +1,7 @@
 package main.java.com.app.concessionario.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,7 +26,8 @@ public class Optional {
 
     //    manyToMany con Auto
     @ManyToMany
-    @JsonBackReference
+//    @JsonBackReference
+    @JsonIgnore
     @JoinTable(
             name = "automobile_optional",
             joinColumns = @JoinColumn(name = "automobile_id"),
