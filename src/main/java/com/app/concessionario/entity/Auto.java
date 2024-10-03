@@ -58,6 +58,6 @@ public class Auto {
     //    manyToMany con Optional
     @ManyToMany(mappedBy = "auto")
 //    @JsonManagedReference
-    private List<Optional> optionals;
+    private List<Accessori> optionals;
 
 }

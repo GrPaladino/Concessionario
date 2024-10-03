@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class Optional {
+public class Accessori {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

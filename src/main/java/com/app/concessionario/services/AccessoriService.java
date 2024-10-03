@@ -1,32 +1,33 @@
 package main.java.com.app.concessionario.services;
 
-import main.java.com.app.concessionario.entity.Optional;
-import main.java.com.app.concessionario.repositories.OptionalRepository;
+import main.java.com.app.concessionario.entity.Accessori;
+import main.java.com.app.concessionario.repositories.AccessoriRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
-public class OptionalService {
+public class AccessoriService {
 
     @Autowired
-    private OptionalRepository optionalRepository;
+    private AccessoriRepository optionalRepository;
 
-    public List<Optional> getOptionals() {
+    public List<Accessori> getOptionals() {
         return optionalRepository.findAll();
     }
 
-    public Optional getOptional(Integer id) {
-        java.util.Optional<Optional> optional = optionalRepository.findById(id);
+    public Accessori getOptional(Integer id) {
+        Optional<Accessori> optional = optionalRepository.findById(id);
         return optional.orElse(null);
     }
 
-    public void addOptional(Optional optional) {
+    public void addOptional(Accessori optional) {
         optionalRepository.save(optional);
     }
 
-    public void updateOptional(Integer id, Optional optional) {
+    public void updateOptional(Integer id, Accessori optional) {
         optional.setId(id);
         optionalRepository.save(optional);
     }
