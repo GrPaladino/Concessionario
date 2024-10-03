@@ -1,8 +1,7 @@
-package main.java.com.app.concessionario.services;
+package com.app.concessionario.services;
 
-import main.java.com.app.concessionario.entity.Auto;
-import main.java.com.app.concessionario.entity.Motore;
-import main.java.com.app.concessionario.repositories.MotoreRepository;
+import com.app.concessionario.entity.Motore;
+import com.app.concessionario.repositories.MotoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

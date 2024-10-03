@@ -1,7 +1,7 @@
-package main.java.com.app.concessionario.controllers;
+package com.app.concessionario.controllers;
 
-import main.java.com.app.concessionario.entity.Accessorio;
-import main.java.com.app.concessionario.services.AccessorioService;
+import com.app.concessionario.entity.Accessorio;
+import com.app.concessionario.services.AccessorioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,8 +35,8 @@ public class AccessorioController {
 
     // ---> logica da inserire nel service
 //    @GetMapping("accDto/{id}")
-//    public AccessoriDTO getAccessoriDto(@PathVariable Integer id) {
-//        Accessorio a = optionalService.getOptional(id);
+//    public AccessorioDTO getAccessorioDto(@PathVariable Integer id) {
+//        Accessorio a = accessorioService.getOptional(id);
 //        return AccessoriMapper.toDTO(a);
 //    }
 

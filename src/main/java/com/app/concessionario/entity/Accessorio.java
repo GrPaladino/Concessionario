@@ -1,4 +1,4 @@
-package main.java.com.app.concessionario.entity;
+package com.app.concessionario.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;

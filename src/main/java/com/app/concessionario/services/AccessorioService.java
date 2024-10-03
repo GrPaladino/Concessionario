@@ -1,9 +1,13 @@
-package main.java.com.app.concessionario.services;
+package com.app.concessionario.services;
 
-import main.java.com.app.concessionario.entity.Accessorio;
-import main.java.com.app.concessionario.repositories.AccessorioRepository;
+import com.app.concessionario.dto.AccessorioDTO;
+import com.app.concessionario.entity.Accessorio;
+import com.app.concessionario.mapper.AccessorioMapper;
+import com.app.concessionario.repositories.AccessorioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,10 +22,11 @@ public class AccessorioService {
         return accessorioRepository.findAll();
     }
 
-    public Accessorio getOptional(Integer id) {
-        Optional<Accessorio> accessorio = accessorioRepository.findById(id);
-        return accessorio.orElse(null);
-    }
+//    public Accessorio getOptional(Integer id) {
+//        Optional<Accessorio> accessorio = accessorioRepository.findById(id);
+//        return accessorio.orElse(null);
+//
+//    }
 
     public void addOptional(Accessorio accessorio) {
         accessorioRepository.save(accessorio);
@@ -35,4 +40,11 @@ public class AccessorioService {
     public void deleteOptional(Integer id) {
         accessorioRepository.deleteById(id);
     }
+
+//    chiamata DTO
+//        @GetMapping("accDto/{id}")
+//    public AccessorioDTO getAccessorioDto(Integer id) {
+//        Accessorio a = accessorioRepository.findById(id);
+//        return AccessorioMapper.toDTO(a);
+//    }
 }

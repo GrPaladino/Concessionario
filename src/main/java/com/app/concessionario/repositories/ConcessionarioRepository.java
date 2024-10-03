@@ -1,6 +1,6 @@
-package main.java.com.app.concessionario.repositories;
+package com.app.concessionario.repositories;
 
-import main.java.com.app.concessionario.entity.Concessionario;
+import com.app.concessionario.entity.Concessionario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

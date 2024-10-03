@@ -1,8 +1,7 @@
-package main.java.com.app.concessionario.controllers;
+package com.app.concessionario.controllers;
 
-import main.java.com.app.concessionario.entity.Auto;
-import main.java.com.app.concessionario.entity.Concessionario;
-import main.java.com.app.concessionario.services.AutoService;
+import com.app.concessionario.entity.Auto;
+import com.app.concessionario.services.AutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

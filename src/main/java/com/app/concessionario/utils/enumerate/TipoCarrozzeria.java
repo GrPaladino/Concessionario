@@ -1,4 +1,4 @@
-package main.java.com.app.concessionario.utils.enumerate;
+package com.app.concessionario.utils.enumerate;
 
 public enum TipoCarrozzeria {
 
