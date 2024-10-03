@@ -1,12 +1,9 @@
 package main.java.com.app.concessionario.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "automobili")
@@ -42,7 +39,7 @@ public class Auto {
 
     //    manyToOne con concessionario
     @ManyToOne
-    @JoinColumn(name = "concessionarioId")
+    @JoinColumn(name = "concessionario_id")
     private Concessionario concessionario;
 
 //    oneToOne con Clienti
@@ -55,9 +52,9 @@ public class Auto {
 //    @JsonManagedReference
     private List<Motore> motori;
 
-    //    manyToMany con Optional
+    //    manyToMany con Accessori
     @ManyToMany(mappedBy = "auto")
 //    @JsonManagedReference
-    private List<Accessori> optionals;
+    private List<Accessorio> accessori;
 
 }

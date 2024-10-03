@@ -2,21 +2,20 @@ package main.java.com.app.concessionario.mapper;
 
 import lombok.val;
 import main.java.com.app.concessionario.dto.AccessoriDTO;
-import main.java.com.app.concessionario.entity.Accessori;
+import main.java.com.app.concessionario.entity.Accessorio;
 import main.java.com.app.concessionario.entity.Auto;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class AccessoriMapper {
 
-    public static AccessoriDTO toDTO(Accessori accessori) {
+    public static AccessoriDTO toDTO(Accessorio accessorio) {
         AccessoriDTO dto = new AccessoriDTO();
-        dto.setId(accessori.getId());
-        dto.setNome(accessori.getNome());
+        dto.setId(accessorio.getId());
+        dto.setNome(accessorio.getNome());
         List<Integer> idsList = new ArrayList<>();
-        for (Auto a: accessori.getAuto()){
+        for (Auto a: accessorio.getAuto()){
             val ids = a.getId();
             idsList.add(ids);
         }

@@ -1,6 +1,5 @@
 package main.java.com.app.concessionario.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
@@ -8,14 +7,14 @@ import lombok.*;
 import java.util.List;
 
 @Entity
-@Table(name = "optionals")
+@Table(name = "accessori")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class Accessori {
+public class Accessorio {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,9 +28,9 @@ public class Accessori {
 //    @JsonBackReference
     @JsonIgnore
     @JoinTable(
-            name = "automobile_optional",
+            name = "accessorio_automobile",
             joinColumns = @JoinColumn(name = "automobile_id"),
-            inverseJoinColumns = @JoinColumn(name = "optional_id")
+            inverseJoinColumns = @JoinColumn(name = "accessorio_id")
     )
     private List<Auto> auto;
 }

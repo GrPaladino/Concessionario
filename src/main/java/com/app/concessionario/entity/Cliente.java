@@ -34,9 +34,7 @@ public class Cliente {
     @JoinColumn(name = "concessionario_id")
     private Concessionario concessionario;
 
-//    oneToOne con Auto
-//    @OneToOne(mappedBy = "cliente")
-//    private Auto auto;
+
 
 
 
