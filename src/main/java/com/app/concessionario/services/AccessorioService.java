@@ -2,12 +2,12 @@ package com.app.concessionario.services;
 
 import com.app.concessionario.dto.AccessorioDTO;
 import com.app.concessionario.entity.Accessorio;
+import com.app.concessionario.entity.Auto;
 import com.app.concessionario.mapper.AccessorioMapper;
 import com.app.concessionario.repositories.AccessorioRepository;
+import com.app.concessionario.repositories.AutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,6 +17,9 @@ public class AccessorioService {
 
     @Autowired
     private AccessorioRepository accessorioRepository;
+
+    @Autowired
+    public AutoRepository autoRepository;
 
     public List<Accessorio> getOptionals() {
         return accessorioRepository.findAll();
@@ -28,9 +31,9 @@ public class AccessorioService {
 //
 //    }
 
-    public void addOptional(Accessorio accessorio) {
-        accessorioRepository.save(accessorio);
-    }
+//    public void addOptional(Accessorio accessorio) {
+//        accessorioRepository.save(accessorio);
+//    }
 
     public void updateOptional(Integer id, Accessorio accessorio) {
         accessorio.setId(id);
@@ -41,10 +44,18 @@ public class AccessorioService {
         accessorioRepository.deleteById(id);
     }
 
-//    chiamata DTO
-//        @GetMapping("accDto/{id}")
-//    public AccessorioDTO getAccessorioDto(Integer id) {
-//        Accessorio a = accessorioRepository.findById(id);
-//        return AccessorioMapper.toDTO(a);
-//    }
+//    chiamata get DTO
+    public AccessorioDTO getAccessorioDto(Integer id) {
+        Optional<Accessorio> a = accessorioRepository.findById(id);
+        return AccessorioMapper.toDTO(a.get());
+    }
+
+
+
+//    chiamata post DTO
+    public void addAccessorioDTO(AccessorioDTO accessorioDTO) {
+        List<Auto> autos = autoRepository.findAll();
+        Accessorio newAccessorio = AccessorioMapper.toEntity(accessorioDTO, autos);
+        accessorioRepository.save(newAccessorio);
+    }
 }

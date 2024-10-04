@@ -1,5 +1,6 @@
 package com.app.concessionario.controllers;
 
+import com.app.concessionario.dto.AccessorioDTO;
 import com.app.concessionario.entity.Accessorio;
 import com.app.concessionario.services.AccessorioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +18,12 @@ public class AccessorioController {
     public List<Accessorio> getOptionals() {return optionalService.getOptionals();}
 
     @GetMapping("/accessorio/{id}")
-    public Accessorio getOptional(@PathVariable Integer id) {
-        return optionalService.getOptional(id);
+    public AccessorioDTO getAccessorioDTO(@PathVariable Integer id) {
+        return optionalService.getAccessorioDto(id);
     }
 
     @PostMapping("/accessori")
-    public void addOptional(@RequestBody Accessorio accessorio) {optionalService.addOptional(accessorio);}
+    public void addOptional(@RequestBody AccessorioDTO accessorioDTO) {optionalService.addAccessorioDTO(accessorioDTO);}
 
     @PutMapping("/accessorio/{id}")
     public void updateOptional(@PathVariable Integer id, @RequestBody Accessorio accessorio) {
@@ -32,15 +33,4 @@ public class AccessorioController {
     @DeleteMapping("/accessorio/{id}")
     public void deleteOptional(@PathVariable Integer id) {optionalService.deleteOptional(id);}
 
-
-    // ---> logica da inserire nel service
-//    @GetMapping("accDto/{id}")
-//    public AccessorioDTO getAccessorioDto(@PathVariable Integer id) {
-//        Accessorio a = accessorioService.getOptional(id);
-//        return AccessoriMapper.toDTO(a);
-//    }
-
-//    @PostMapping
-//      public Accessori salvaDto(AccessoriDTO) {
-//    sul db -> devo salvare l'entity = Accessori
 }

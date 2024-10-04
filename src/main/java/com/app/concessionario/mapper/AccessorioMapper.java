@@ -3,11 +3,18 @@ package com.app.concessionario.mapper;
 import com.app.concessionario.dto.AccessorioDTO;
 import com.app.concessionario.entity.Accessorio;
 import com.app.concessionario.entity.Auto;
+import com.app.concessionario.repositories.AutoRepository;
+import com.app.concessionario.services.AutoService;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class AccessorioMapper {
+
+
 
     public static AccessorioDTO toDTO(Accessorio accessorio) {
 
@@ -28,7 +35,29 @@ public class AccessorioMapper {
         return dto;
     }
 
-    public static Accessorio toEntity(AccessorioDTO accessorioDTO) {
 
+    public static Accessorio toEntity(AccessorioDTO accessorioDTO, List<Auto> autos) {
+
+        //        crea nuovo accessorio
+        Accessorio accessorio = new Accessorio();
+
+//        setta l'id del accessorio prendendolo dal dto
+        accessorio.setId(accessorioDTO.getId());
+
+//        setta il nome del accessorio prendendolo dal dto
+        accessorio.setNome(accessorioDTO.getNome());
+
+//        itera sulla lista di autoID per settare
+//        gli id delle auto che hanno questo accessorio
+        accessorio.setAuto(accessorioDTO.getAutoIds().stream()
+                .map(autoId -> autos.stream()
+                        .filter(auto -> auto.getId().equals(autoId))
+                        .findFirst()
+                        .orElseThrow(() -> new IllegalArgumentException("Auto con ID " + autoId + " non trovata"))
+                )
+                .collect(Collectors.toList())
+        );
+
+        return accessorio;
     }
 }
