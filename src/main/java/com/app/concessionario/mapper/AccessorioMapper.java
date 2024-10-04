@@ -3,13 +3,8 @@ package com.app.concessionario.mapper;
 import com.app.concessionario.dto.AccessorioDTO;
 import com.app.concessionario.entity.Accessorio;
 import com.app.concessionario.entity.Auto;
-import com.app.concessionario.repositories.AutoRepository;
-import com.app.concessionario.services.AutoService;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class AccessorioMapper {

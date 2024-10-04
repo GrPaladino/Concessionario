@@ -21,26 +21,26 @@ public class AccessorioService {
     @Autowired
     public AutoRepository autoRepository;
 
-    public List<Accessorio> getOptionals() {
+    public List<Accessorio> getAccessori() {
         return accessorioRepository.findAll();
     }
 
-//    public Accessorio getOptional(Integer id) {
+//    public Accessorio getAccessorio(Integer id) {
 //        Optional<Accessorio> accessorio = accessorioRepository.findById(id);
 //        return accessorio.orElse(null);
 //
 //    }
 
-//    public void addOptional(Accessorio accessorio) {
+//    public void addAccessorio(Accessorio accessorio) {
 //        accessorioRepository.save(accessorio);
 //    }
 
-    public void updateOptional(Integer id, Accessorio accessorio) {
+    public void updateAccessorio(Integer id, Accessorio accessorio) {
         accessorio.setId(id);
         accessorioRepository.save(accessorio);
     }
 
-    public void deleteOptional(Integer id) {
+    public void deleteAccessorio(Integer id) {
         accessorioRepository.deleteById(id);
     }
 
