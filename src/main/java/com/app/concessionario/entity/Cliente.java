@@ -1,5 +1,6 @@
 package com.app.concessionario.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -31,6 +32,7 @@ public class Cliente {
 
 //    manyToOne con concessionario
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "concessionario_id")
     private Concessionario concessionario;
 

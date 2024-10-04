@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -32,9 +33,9 @@ public class Concessionario {
 
 //    oneToMany con Clienti
     @OneToMany(mappedBy = "concessionario")
-    private Set<Cliente> clienti;
+    private List<Cliente> clienti;
 
     //    oneToMany con Auto
     @OneToMany(mappedBy = "concessionario")
-    private Set<Auto> autos;
+    private List<Auto> autos;
 }

@@ -1,5 +1,6 @@
 package com.app.concessionario.controllers;
 
+import com.app.concessionario.dto.AutoDTO;
 import com.app.concessionario.entity.Auto;
 import com.app.concessionario.services.AutoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,17 +15,17 @@ public class AutoController {
     private AutoService autoService;
 
     @GetMapping("/auto")
-    public List<Auto> getAutos() {return autoService.getAutos();}
+    public List<AutoDTO> getAutosDTO() {return autoService.getAutosDTO();}
 
     @GetMapping("/auto/{id}")
-    public Auto getAuto(@PathVariable Integer id) {return autoService.getAuto(id);}
+    public AutoDTO getAutoDTO(@PathVariable Integer id) {return autoService.getAutoDTO(id);}
 
     @PostMapping("/auto")
-    public void addAuto(@RequestBody Auto auto) {autoService.addAuto(auto);}
+    public void addAutoDTO(@RequestBody AutoDTO autoDTO) {autoService.addAutoDTO(autoDTO);}
 
     @PutMapping("/auto/{id}")
-    public void updateAuto(@PathVariable Integer id, @RequestBody Auto auto) {
-        autoService.updateAuto(id, auto);
+    public void updateAutoDTO(@PathVariable Integer id, @RequestBody AutoDTO autoDTO) {
+        autoService.updateAutoDTO(id, autoDTO);
     }
 
     @DeleteMapping("/auto/{id}")

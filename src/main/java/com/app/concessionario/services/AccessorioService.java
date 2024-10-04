@@ -76,9 +76,9 @@ public class AccessorioService {
 //    chiamata put per update accessorio
 
     public void updateAccessorioDTO(Integer id, AccessorioDTO accessorioDTO) {
-        accessorioDTO.setId(id);
         List<Auto> autos = autoRepository.findAll();
         Accessorio newAccessorio = AccessorioMapper.toEntity(accessorioDTO, autos);
+        newAccessorio.setId(id);
         accessorioRepository.save(newAccessorio);
     }
 

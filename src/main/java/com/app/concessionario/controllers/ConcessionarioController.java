@@ -1,6 +1,6 @@
 package com.app.concessionario.controllers;
 
-import com.app.concessionario.entity.Concessionario;
+import com.app.concessionario.dto.ConcessionarioDTO;
 import com.app.concessionario.services.ConcessonarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,17 +14,17 @@ public class ConcessionarioController {
     private ConcessonarioService concessonarioService;
 
     @GetMapping("/concessionari")
-    public List<Concessionario> getConcessionari() {return concessonarioService.getConcessionari();}
+    public List<ConcessionarioDTO> getConcessionariDTO() {return concessonarioService.getConcessionariDTO();}
 
     @GetMapping("/concessionario/{id}")
-    public Concessionario getConcessionario(@PathVariable Integer id) {return concessonarioService.getConcessionario(id);}
+    public ConcessionarioDTO getConcessionarioDTO(@PathVariable Integer id) {return concessonarioService.getConcessionarioDTO(id);}
 
     @PostMapping("/concessionari")
-    public void addConcessionario(@RequestBody Concessionario concessionario) {concessonarioService.addConcessionario(concessionario);}
+    public void addConcessionarioDTO(@RequestBody ConcessionarioDTO concessionarioDTO) {concessonarioService.addConcessionarioDTO(concessionarioDTO);}
 
     @PutMapping("/concessionario/{id}")
-    public void updateConcessionario(@PathVariable Integer id, @RequestBody Concessionario concessionario) {
-        concessonarioService.updateConcessionario(id, concessionario);
+    public void updateConcessionarioDTO(@PathVariable Integer id, @RequestBody ConcessionarioDTO concessionarioDTO) {
+        concessonarioService.updateConcessionarioDTO(id, concessionarioDTO);
     }
 
     @DeleteMapping("/concessionario/{id}")
