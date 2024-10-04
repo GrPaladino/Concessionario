@@ -15,7 +15,7 @@ public class AccessorioController {
     private AccessorioService optionalService;
 
     @GetMapping("/accessori")
-    public List<Accessorio> getAccessori() {return optionalService.getAccessori();}
+    public List<AccessorioDTO> getAccessoriDTO() {return optionalService.getAccessoriDTO();}
 
     @GetMapping("/accessorio/{id}")
     public AccessorioDTO getAccessorioDTO(@PathVariable Integer id) {
@@ -26,8 +26,8 @@ public class AccessorioController {
     public void addAccessorioDTO(@RequestBody AccessorioDTO accessorioDTO) {optionalService.addAccessorioDTO(accessorioDTO);}
 
     @PutMapping("/accessorio/{id}")
-    public void updateAccessorio(@PathVariable Integer id, @RequestBody Accessorio accessorio) {
-        optionalService.updateAccessorio(id, accessorio);
+    public void updateAccessorioDTO(@PathVariable Integer id, @RequestBody AccessorioDTO accessorioDTO) {
+        optionalService.updateAccessorioDTO(id, accessorioDTO);
     }
 
     @DeleteMapping("/accessorio/{id}")

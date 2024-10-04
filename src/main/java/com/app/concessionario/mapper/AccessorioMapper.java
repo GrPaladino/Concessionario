@@ -9,8 +9,6 @@ import java.util.stream.Collectors;
 
 public class AccessorioMapper {
 
-
-
     public static AccessorioDTO toDTO(Accessorio accessorio) {
 
 //        crea nuovo dto

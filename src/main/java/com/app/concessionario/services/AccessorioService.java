@@ -9,6 +9,7 @@ import com.app.concessionario.repositories.AutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,9 +22,9 @@ public class AccessorioService {
     @Autowired
     public AutoRepository autoRepository;
 
-    public List<Accessorio> getAccessori() {
-        return accessorioRepository.findAll();
-    }
+//    public List<Accessorio> getAccessori() {
+//        return accessorioRepository.findAll();
+//    }
 
 //    public Accessorio getAccessorio(Integer id) {
 //        Optional<Accessorio> accessorio = accessorioRepository.findById(id);
@@ -35,16 +36,29 @@ public class AccessorioService {
 //        accessorioRepository.save(accessorio);
 //    }
 
-    public void updateAccessorio(Integer id, Accessorio accessorio) {
-        accessorio.setId(id);
-        accessorioRepository.save(accessorio);
-    }
+//    public void updateAccessorio(Integer id, Accessorio accessorio) {
+//        accessorio.setId(id);
+//        accessorioRepository.save(accessorio);
+//    }
 
     public void deleteAccessorio(Integer id) {
         accessorioRepository.deleteById(id);
     }
 
-//    chiamata get DTO
+//                              CHIAMATE DTO
+
+//    chiamata get di tutti gli accessori
+    public List<AccessorioDTO> getAccessoriDTO() {
+        List<AccessorioDTO> accessoriDTO = new ArrayList<>();
+        List<Accessorio> accessori = accessorioRepository.findAll();
+        for (Accessorio a : accessori) {
+            AccessorioDTO accessorioDTO = AccessorioMapper.toDTO(a);
+            accessoriDTO.add(accessorioDTO);
+        }
+        return accessoriDTO;
+    }
+
+//    chiamata get per un singolo accessorio
     public AccessorioDTO getAccessorioDto(Integer id) {
         Optional<Accessorio> a = accessorioRepository.findById(id);
         return AccessorioMapper.toDTO(a.get());
@@ -52,10 +66,20 @@ public class AccessorioService {
 
 
 
-//    chiamata post DTO
+//    chiamata post per creare un nuovo accessorio #####RITORNA ERRORE 500
     public void addAccessorioDTO(AccessorioDTO accessorioDTO) {
         List<Auto> autos = autoRepository.findAll();
         Accessorio newAccessorio = AccessorioMapper.toEntity(accessorioDTO, autos);
         accessorioRepository.save(newAccessorio);
     }
+
+//    chiamata put per update accessorio
+
+    public void updateAccessorioDTO(Integer id, AccessorioDTO accessorioDTO) {
+        accessorioDTO.setId(id);
+        List<Auto> autos = autoRepository.findAll();
+        Accessorio newAccessorio = AccessorioMapper.toEntity(accessorioDTO, autos);
+        accessorioRepository.save(newAccessorio);
+    }
+
 }
