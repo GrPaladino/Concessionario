@@ -1,5 +1,6 @@
 package com.app.concessionario.controllers;
 
+import com.app.concessionario.dto.MotoreDTO;
 import com.app.concessionario.entity.Motore;
 import com.app.concessionario.services.MotoreService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,17 +15,17 @@ public class MotoreController {
     private MotoreService motoreService;
 
     @GetMapping("/motori")
-    public List<Motore> getMotori() {return motoreService.getMotori();}
+    public List<MotoreDTO> getMotoriDTO() {return motoreService.getMotoriDTO();}
 
     @GetMapping("/motore/{id}")
-    public Motore getMotore(@PathVariable Integer id) {return motoreService.getMotore(id);}
+    public MotoreDTO getMotoreDTO(@PathVariable Integer id) {return motoreService.getMotoreDTO(id);}
 
     @PostMapping("/motori")
-    public void addMotore(@RequestBody Motore motore) {motoreService.addMotore(motore);}
+    public void addMotoreDTO(@RequestBody MotoreDTO motoreDTO) {motoreService.addMotoreDTO(motoreDTO);}
 
     @PutMapping("/motore/{id}")
-    public void updateMotore(@PathVariable Integer id, @RequestBody Motore motore) {
-        motoreService.updateMotore(id, motore);
+    public void updateMotoreDTO(@PathVariable Integer id, @RequestBody MotoreDTO motoreDTO) {
+        motoreService.updateMotoreDTO(id, motoreDTO);
     }
 
     @DeleteMapping("/motore/{id}")

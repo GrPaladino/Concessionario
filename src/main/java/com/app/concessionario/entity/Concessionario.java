@@ -1,5 +1,6 @@
 package com.app.concessionario.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -33,9 +34,11 @@ public class Concessionario {
 
 //    oneToMany con Clienti
     @OneToMany(mappedBy = "concessionario")
+    @JsonBackReference
     private List<Cliente> clienti;
 
     //    oneToMany con Auto
     @OneToMany(mappedBy = "concessionario")
+    @JsonBackReference
     private List<Auto> autos;
 }

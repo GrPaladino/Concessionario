@@ -1,6 +1,7 @@
 package com.app.concessionario.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -31,10 +32,10 @@ public class Cliente {
     private String telefono;
 
 //    manyToOne con concessionario
-    @ManyToOne
-    @JsonIgnore
-    @JoinColumn(name = "concessionario_id")
-    private Concessionario concessionario;
+@ManyToOne
+@JoinColumn(name = "concessionario_id")
+@JsonManagedReference
+private Concessionario concessionario;
 
 
 

@@ -51,13 +51,14 @@ public class ConcessionarioMapper {
 
 //        itera sulla lista delle auto per settare gli id
 //        delle auto presenti nel concessionario
-
-        concessionario.setAutos(concessionarioDTO.getAutoIds().stream()
-                .map(autoId -> autos.stream()
-                        .filter(auto -> auto.getId().equals(autoId))
-                        .findFirst().orElseThrow(() -> new IllegalArgumentException("Auto con ID " + autoId + " non trovata"))
-                ).collect(Collectors.toList())
-        );
+        if (concessionarioDTO.getAutoIds() != null) {
+            concessionario.setAutos(concessionarioDTO.getAutoIds().stream()
+                    .map(autoId -> autos.stream()
+                            .filter(auto -> auto.getId().equals(autoId))
+                            .findFirst().orElseThrow(() -> new IllegalArgumentException("Auto con ID " + autoId + " non trovata"))
+                    ).collect(Collectors.toList())
+            );
+        }
 
         return concessionario;
     }

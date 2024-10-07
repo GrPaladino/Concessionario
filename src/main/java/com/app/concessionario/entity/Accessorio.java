@@ -26,8 +26,8 @@ public class Accessorio {
 
     //    manyToMany con Auto
     @ManyToMany
-//    @JsonBackReference
-    @JsonIgnore
+    @JsonBackReference
+//    @JsonIgnore
     @JoinTable(
             name = "accessorio_automobile",
             joinColumns = @JoinColumn(name = "automobile_id"),

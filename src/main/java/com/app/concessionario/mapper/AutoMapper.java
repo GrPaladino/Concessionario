@@ -2,17 +2,16 @@ package com.app.concessionario.mapper;
 
 
 import com.app.concessionario.dto.AutoDTO;
-import com.app.concessionario.entity.Accessorio;
-import com.app.concessionario.entity.Auto;
-import com.app.concessionario.entity.Motore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.app.concessionario.entity.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class AutoMapper {
 
-    public static AutoDTO toDTO(Auto auto) {
+    public static AutoDTO toDTO(Auto auto, List<Cliente> clienti) {
 
 //        crea nuovo dto
         AutoDTO dto = new AutoDTO();
@@ -35,20 +34,27 @@ public class AutoMapper {
         //        setta isVenduta del dto prendendolo dall'entity
         dto.setIsVentuta(auto.getIsVentuta());
 
-        //        setta il cliente del dto prendendolo dall'entity
-        dto.setCliente(auto.getCliente());
+        //        setta il concessionarioId del dto prendendolo dall'entity
+        dto.setConcessionarioId(auto.getConcessionario().getId());
 
-        //        setta le motorizzazioni del dto prendendole dall'entity
-        dto.setMotoriIds(auto.getMotori().stream().map(Motore::getId).collect(Collectors.toList()));
+        //        setta l'id del cliente del dto prendendolo dall'entity
+        Optional<Cliente> cli = Optional.ofNullable(auto.getCliente());
+        if (cli.isPresent()) {
+            dto.setClienteId(auto.getId());
+        }
 
-        //        setta gli accessori del dto prendendoli dall'entity
-        dto.setAccessoriIds(auto.getAccessori().stream().map(Accessorio::getId).collect(Collectors.toList()));
+            //        setta le motorizzazioni del dto prendendole dall'entity
+            dto.setMotoriIds(auto.getMotori().stream().map(Motore::getId).collect(Collectors.toList()));
 
-        return dto;
-    }
+            //        setta gli accessori del dto prendendoli dall'entity
+            dto.setAccessoriIds(auto.getAccessori().stream().map(Accessorio::getId).collect(Collectors.toList()));
+
+            return dto;
+        }
 
 
-    public static Auto toEntity(AutoDTO autoDTO, List<Motore> motori, List<Accessorio> accessori) {
+
+    public static Auto toEntity(AutoDTO autoDTO, List<Motore> motori, List<Accessorio> accessori, List<Cliente> clienti, List<Concessionario> concessionari) {
 
 //        crea nuova auto
         Auto auto = new Auto();
@@ -71,8 +77,19 @@ public class AutoMapper {
         //        setta la carrozzeria prendendolo dal dto
         auto.setCarrozzeria(autoDTO.getCarrozzeria());
 
-        //        setta il concessionario prendendolo dal dto
-        auto.setConcessionario(autoDTO.getConcessionario());
+        //        setta il concessionario prendendo l'id dal dto
+        for (Concessionario c : concessionari) {
+            if (c.getId().equals(autoDTO.getConcessionarioId())) {
+                auto.setConcessionario(c);
+            }
+        }
+
+        //        setta il cliente prendendo l'id dal dto
+        for (Cliente c : clienti) {
+            if (c.getId().equals(autoDTO.getClienteId())) {
+                auto.setCliente(c);
+            }
+        }
 
         //        setta le motorizzazioni prendendolo dal dto
         auto.setMotori(autoDTO.getMotoriIds().stream()

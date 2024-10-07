@@ -34,8 +34,8 @@ public class Motore {
 
     //    manyToMany con Auto
     @ManyToMany
-//    @JsonBackReference
-    @JsonIgnore
+    @JsonBackReference
+//    @JsonIgnore
     @JoinTable(
 
             name = "automobile_motore",

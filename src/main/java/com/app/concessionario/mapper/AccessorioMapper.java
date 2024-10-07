@@ -3,12 +3,17 @@ package com.app.concessionario.mapper;
 import com.app.concessionario.dto.AccessorioDTO;
 import com.app.concessionario.entity.Accessorio;
 import com.app.concessionario.entity.Auto;
+import com.app.concessionario.services.AutoService;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class AccessorioMapper {
 
+    @Autowired
+    private AutoService autoService;
     public static AccessorioDTO toDTO(Accessorio accessorio) {
 
 //        crea nuovo dto
@@ -42,14 +47,25 @@ public class AccessorioMapper {
 
 //        itera sulla lista di autoID per settare
 //        gli id delle auto che hanno questo accessorio
-        accessorio.setAuto(accessorioDTO.getAutoIds().stream()
-                .map(autoId -> autos.stream()
-                        .filter(auto -> auto.getId().equals(autoId))
-                        .findFirst()
-                        .orElseThrow(() -> new IllegalArgumentException("Auto con ID " + autoId + " non trovata"))
-                )
-                .collect(Collectors.toList())
-        );
+        if (accessorioDTO.getAutoIds() != null) {
+            accessorio.setAuto(accessorioDTO.getAutoIds().stream()
+                    .map(autoId -> autos.stream()
+                            .filter(auto -> auto.getId().equals(autoId))
+                            .findFirst().orElseThrow(() -> new IllegalArgumentException("Auto con ID " + autoId + " non trovata"))
+                    ).collect(Collectors.toList())
+            );
+
+//            List<Auto> autoList = new ArrayList<>();
+//            for (int i = 0; i < autos.size(); i++) {
+//                for (int j = 0; j<accessorioDTO.getAutoIds().size(); j++) {
+//                    if (autos.get(i).getId() == accessorioDTO.getAutoIds().get(j)) {
+//                            autoList.add(autos.get(i));
+//                    }
+//                }
+//            }
+
+//            accessorio.setAuto(autoList);
+        }
 
         return accessorio;
     }

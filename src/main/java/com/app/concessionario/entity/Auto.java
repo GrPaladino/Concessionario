@@ -41,6 +41,7 @@ public class Auto {
     //    manyToOne con concessionario
     @ManyToOne
     @JoinColumn(name = "concessionario_id")
+    @JsonManagedReference
     private Concessionario concessionario;
 
 //    oneToOne con Clienti
@@ -50,12 +51,12 @@ public class Auto {
 
 //    manyToMany con Motori
     @ManyToMany(mappedBy = "auto")
-//    @JsonManagedReference
+    @JsonManagedReference
     private List<Motore> motori;
 
     //    manyToMany con Accessori
     @ManyToMany(mappedBy = "auto")
-//    @JsonManagedReference
+    @JsonManagedReference
     private List<Accessorio> accessori;
 
 }

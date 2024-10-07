@@ -24,9 +24,9 @@ public class AutoDTO {
 
     private Boolean isVentuta;
 
-    private Concessionario concessionario;
+    private Integer concessionarioId;
 
-    private Cliente cliente;
+    private Integer clienteId;
 
     private List<Integer> motoriIds;
 
