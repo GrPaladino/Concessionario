@@ -92,4 +92,16 @@ public class AutoService {
         newAuto.setId(id);
         autoRepository.save(newAuto);
     }
+
+
+//    METODO PER AGGIORNARE IL CLIENTE ID DI UN AUTO QUANDO VIENE VENDUTA
+    public void sellAuto(Integer autoId, Integer clienteId) {
+        Optional<Auto> a = autoRepository.findById(autoId);
+        Optional<Cliente> c = clienteRepository.findById(clienteId);
+        Auto auto = a.get();
+        Cliente cliente = c.get();
+        auto.setCliente(cliente);
+        auto.setIsVentuta(true);
+        autoRepository.save(auto);
+    }
 }

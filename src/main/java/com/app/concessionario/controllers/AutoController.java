@@ -30,4 +30,12 @@ public class AutoController {
 
     @DeleteMapping("/auto/{id}")
     public void deleteAuto(@PathVariable Integer id) {autoService.deleteAuto(id);}
+
+//                              ENDPOINT AVANZATI
+
+//    endpoint per assegnare un cliente ad un auto venduta
+    @PutMapping("/auto/{autoId}/cliente/{clienteId}")
+    public void sellAuto(@PathVariable Integer autoId, @PathVariable Integer clienteId) {
+        autoService.sellAuto(autoId, clienteId);
+    }
 }
