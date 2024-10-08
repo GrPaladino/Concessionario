@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 public class AutoMapper {
 
-    public static AutoDTO toDTO(Auto auto, List<Cliente> clienti) {
+    public static AutoDTO toDTO(Auto auto) {
 
 //        crea nuovo dto
         AutoDTO dto = new AutoDTO();
@@ -38,12 +38,6 @@ public class AutoMapper {
 
         //        setta l'id del cliente del dto prendendolo dall'entity
         Optional<Cliente> cli = Optional.ofNullable(auto.getCliente());
-
-        /**
-         * Ho corretto la riga 48, prima era cosi':
-         *          dto.setClienteId(auto.getId());
-         * settavi al campo dell' AutoDTO clienteId -> l'ID dell'auto e non del cliente
-         */
         if (cli.isPresent()) {
             dto.setClienteId(auto.getCliente().getId());
         }

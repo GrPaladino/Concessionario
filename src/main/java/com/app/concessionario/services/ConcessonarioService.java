@@ -1,8 +1,10 @@
 package com.app.concessionario.services;
 
+import com.app.concessionario.dto.AutoDTO;
 import com.app.concessionario.dto.ConcessionarioDTO;
 import com.app.concessionario.entity.Auto;
 import com.app.concessionario.entity.Concessionario;
+import com.app.concessionario.mapper.AutoMapper;
 import com.app.concessionario.mapper.ConcessionarioMapper;
 import com.app.concessionario.repositories.AutoRepository;
 import com.app.concessionario.repositories.ConcessionarioRepository;
@@ -81,6 +83,19 @@ public class ConcessonarioService {
         concessionarioRepository.save(newConcessionario);
 
     }
+
+//    METODO PER RITORNARE LA LISTA DI AUTO PRESENTI NEL CONCESSONARIO
+    public List<AutoDTO> getAutoPerConcessionario(Integer concessionarioId) {
+        Optional<Concessionario> c = concessionarioRepository.findById(concessionarioId);
+        List<Auto> autos = autoRepository.findAll();
+        List<AutoDTO> newAutoList = new ArrayList<>();
+        for (Auto a : autos) {
+                AutoDTO newAuto = AutoMapper.toDTO(a);
+                newAutoList.add(newAuto);
+        }
+        return newAutoList;
+    }
+
 
 }
 

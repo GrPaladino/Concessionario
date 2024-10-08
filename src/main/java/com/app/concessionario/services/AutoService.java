@@ -54,9 +54,8 @@ public class AutoService {
     public List<AutoDTO> getAutosDTO() {
         List<AutoDTO> autosDTO = new ArrayList<>();
         List<Auto> auto = autoRepository.findAll();
-        List<Cliente> clienti = clienteRepository.findAll();
         for (Auto a : auto) {
-            AutoDTO autoDTO = AutoMapper.toDTO(a, clienti);
+            AutoDTO autoDTO = AutoMapper.toDTO(a);
             autosDTO.add(autoDTO);
         }
         return autosDTO;
@@ -66,7 +65,7 @@ public class AutoService {
     public AutoDTO getAutoDTO(Integer id) {
         Optional<Auto> a = autoRepository.findById(id);
         List<Cliente> clienti = clienteRepository.findAll();
-        return AutoMapper.toDTO(a.get(), clienti);
+        return AutoMapper.toDTO(a.get());
     }
 
 

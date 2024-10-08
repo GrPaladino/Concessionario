@@ -38,4 +38,5 @@ public class AutoController {
     public void sellAuto(@PathVariable Integer autoId, @PathVariable Integer clienteId) {
         autoService.sellAuto(autoId, clienteId);
     }
+
 }

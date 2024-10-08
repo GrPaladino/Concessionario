@@ -1,6 +1,9 @@
 package com.app.concessionario.controllers;
 
+import com.app.concessionario.dto.AutoDTO;
 import com.app.concessionario.dto.ConcessionarioDTO;
+import com.app.concessionario.entity.Auto;
+import com.app.concessionario.entity.Concessionario;
 import com.app.concessionario.services.ConcessonarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -29,4 +32,12 @@ public class ConcessionarioController {
 
     @DeleteMapping("/concessionario/{id}")
     public void deleteConcessionario(@PathVariable Integer id) {concessonarioService.deleteConcessionario(id);}
+
+//                                  ENDPOINT AVANZATI
+
+    //    Lista auto per concessionario: Restituisce tutte le auto di un determinato concessionario.
+    @GetMapping("concessionario/{id}/auto")
+    public List<AutoDTO> getAutoPerConcessionario(@PathVariable Integer id) {
+       return concessonarioService.getAutoPerConcessionario(id);
+    }
 }
