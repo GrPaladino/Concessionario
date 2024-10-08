@@ -3,7 +3,6 @@ package com.app.concessionario.mapper;
 
 import com.app.concessionario.dto.AutoDTO;
 import com.app.concessionario.entity.*;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -57,7 +56,6 @@ public class AutoMapper {
 
 //        crea nuova auto
         Auto auto = new Auto();
-
 //        setta l'id prendendolo dal dto
         auto.setId(autoDTO.getId());
 
@@ -105,6 +103,7 @@ public class AutoMapper {
                         .findFirst()
                         .orElseThrow(() -> new IllegalArgumentException("Accessorio con ID " + accessoriId + " non trovato"))
                 ).collect(Collectors.toList())
+
         );
 
         return auto;
