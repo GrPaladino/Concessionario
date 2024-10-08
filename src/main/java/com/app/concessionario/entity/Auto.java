@@ -49,12 +49,23 @@ public class Auto {
     private Cliente cliente;
 
 //    manyToMany con Motori
-    @ManyToMany(mappedBy = "auto")
+    @ManyToMany
+    @JoinTable(
+
+            name = "automobile_motore",
+            joinColumns = @JoinColumn(name = "automobile_id"),
+            inverseJoinColumns = @JoinColumn(name = "motore_id")
+    )
     @JsonManagedReference
     private List<Motore> motori;
 
     //    manyToMany con Accessori
-    @ManyToMany(mappedBy = "auto")
+    @ManyToMany
+    @JoinTable(
+            name = "accessorio_automobile",
+            joinColumns = @JoinColumn(name = "automobile_id"),
+            inverseJoinColumns = @JoinColumn(name = "accessorio_id")
+    )
     @JsonManagedReference
     private List<Accessorio> accessori;
 

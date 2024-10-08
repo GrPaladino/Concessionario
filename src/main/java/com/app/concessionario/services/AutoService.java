@@ -80,9 +80,9 @@ public class AutoService {
         Auto newAuto = AutoMapper.toEntity(autoDTO, motori, accessori, clienti, concessionari);
         autoRepository.save(newAuto);
     }
-//
-////    chiamata put per update auto
-//
+
+//    chiamata put per update auto
+
     public void updateAutoDTO(Integer id, AutoDTO autoDTO) {
         List<Motore> motori = motoreRepository.findAll();
         List<Accessorio> accessori = accessorioRepository.findAll();

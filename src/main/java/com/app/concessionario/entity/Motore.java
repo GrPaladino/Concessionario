@@ -29,17 +29,8 @@ public class Motore {
     private String carburante;
 
     //    manyToMany con Auto
-    /**
-     * Trovandoci nella Entity Motore, la joinColumns la settiamo sul campo a DB della colonna di riferimento di "questa entita'"
-     * mentra la inverseJoinColumns la settiamo sul campo a DB che fa riferimento dell'altra Entity, Auto in questo caso
-     */
-    @ManyToMany
-    @JoinTable(
 
-            name = "automobile_motore",
-            joinColumns = @JoinColumn(name = "motore_id"),
-            inverseJoinColumns = @JoinColumn(name = "automobile_id")
-    )
+    @ManyToMany(mappedBy = "motori")
     @JsonBackReference
     private List<Auto> auto;
 

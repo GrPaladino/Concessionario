@@ -23,12 +23,7 @@ public class Accessorio {
     private String nome;
 
     //    manyToMany con Auto
-    @ManyToMany
-    @JoinTable(
-            name = "accessorio_automobile",
-            joinColumns = @JoinColumn(name = "automobile_id"),
-            inverseJoinColumns = @JoinColumn(name = "accessorio_id")
-    )
+    @ManyToMany(mappedBy = "accessori")
     @JsonBackReference
     private List<Auto> auto;
 }

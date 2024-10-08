@@ -54,17 +54,6 @@ public class AccessorioMapper {
                             .findFirst().orElseThrow(() -> new IllegalArgumentException("Auto con ID " + autoId + " non trovata"))
                     ).collect(Collectors.toList())
             );
-
-//            List<Auto> autoList = new ArrayList<>();
-//            for (int i = 0; i < autos.size(); i++) {
-//                for (int j = 0; j<accessorioDTO.getAutoIds().size(); j++) {
-//                    if (autos.get(i).getId() == accessorioDTO.getAutoIds().get(j)) {
-//                            autoList.add(autos.get(i));
-//                    }
-//                }
-//            }
-
-//            accessorio.setAuto(autoList);
         }
 
         return accessorio;
