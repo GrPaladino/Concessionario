@@ -4,7 +4,6 @@ package com.app.concessionario.mapper;
 import com.app.concessionario.dto.AutoDTO;
 import com.app.concessionario.entity.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -39,8 +38,14 @@ public class AutoMapper {
 
         //        setta l'id del cliente del dto prendendolo dall'entity
         Optional<Cliente> cli = Optional.ofNullable(auto.getCliente());
+
+        /**
+         * Ho corretto la riga 48, prima era cosi':
+         *          dto.setClienteId(auto.getId());
+         * settavi al campo dell' AutoDTO clienteId -> l'ID dell'auto e non del cliente
+         */
         if (cli.isPresent()) {
-            dto.setClienteId(auto.getId());
+            dto.setClienteId(auto.getCliente().getId());
         }
 
             //        setta le motorizzazioni del dto prendendole dall'entity

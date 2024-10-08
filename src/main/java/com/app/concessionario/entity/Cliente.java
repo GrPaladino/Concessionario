@@ -1,6 +1,5 @@
 package com.app.concessionario.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -11,7 +10,6 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @EqualsAndHashCode
 public class Cliente {
 
@@ -31,14 +29,11 @@ public class Cliente {
     @Column(name = "telefono", length = 30)
     private String telefono;
 
-//    manyToOne con concessionario
-@ManyToOne
-@JoinColumn(name = "concessionario_id")
-@JsonManagedReference
-private Concessionario concessionario;
-
-
-
+    //    manyToOne con concessionario
+    @ManyToOne
+    @JoinColumn(name = "concessionario_id")
+    @JsonManagedReference
+    private Concessionario concessionario;
 
 
 }

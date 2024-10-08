@@ -1,13 +1,10 @@
 package com.app.concessionario.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "motori")
@@ -15,7 +12,6 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @EqualsAndHashCode
 public class Motore {
 
@@ -33,19 +29,19 @@ public class Motore {
     private String carburante;
 
     //    manyToMany con Auto
+    /**
+     * Trovandoci nella Entity Motore, la joinColumns la settiamo sul campo a DB della colonna di riferimento di "questa entita'"
+     * mentra la inverseJoinColumns la settiamo sul campo a DB che fa riferimento dell'altra Entity, Auto in questo caso
+     */
     @ManyToMany
-    @JsonBackReference
-//    @JsonIgnore
     @JoinTable(
 
             name = "automobile_motore",
-            joinColumns = @JoinColumn(name = "automobile_id"),
-            inverseJoinColumns = @JoinColumn(name = "motore_id")
+            joinColumns = @JoinColumn(name = "motore_id"),
+            inverseJoinColumns = @JoinColumn(name = "automobile_id")
     )
+    @JsonBackReference
     private List<Auto> auto;
-
-
-
 
 
 }

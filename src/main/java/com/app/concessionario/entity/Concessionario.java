@@ -3,10 +3,8 @@ package com.app.concessionario.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
 
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "concessionari")
@@ -14,7 +12,6 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @EqualsAndHashCode
 public class Concessionario {
 

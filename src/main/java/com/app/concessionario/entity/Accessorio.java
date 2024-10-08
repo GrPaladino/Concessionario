@@ -1,7 +1,6 @@
 package com.app.concessionario.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -13,7 +12,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @EqualsAndHashCode
 public class Accessorio {
 
@@ -26,12 +24,11 @@ public class Accessorio {
 
     //    manyToMany con Auto
     @ManyToMany
-    @JsonBackReference
-//    @JsonIgnore
     @JoinTable(
             name = "accessorio_automobile",
             joinColumns = @JoinColumn(name = "automobile_id"),
             inverseJoinColumns = @JoinColumn(name = "accessorio_id")
     )
+    @JsonBackReference
     private List<Auto> auto;
 }

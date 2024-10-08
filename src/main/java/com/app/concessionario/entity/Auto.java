@@ -12,7 +12,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @EqualsAndHashCode
 public class Auto {
 
@@ -45,7 +44,7 @@ public class Auto {
     private Concessionario concessionario;
 
 //    oneToOne con Clienti
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
