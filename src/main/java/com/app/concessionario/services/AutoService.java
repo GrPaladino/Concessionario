@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+
 @Service
 public class AutoService {
 
@@ -94,13 +95,19 @@ public class AutoService {
 
 
 //    METODO PER AGGIORNARE IL CLIENTE ID DI UN AUTO QUANDO VIENE VENDUTA
-    public void sellAuto(Integer autoId, Integer clienteId) {
+    public void sellAuto(Integer autoId, Integer clienteId) throws Exception {
         Optional<Auto> a = autoRepository.findById(autoId);
         Optional<Cliente> c = clienteRepository.findById(clienteId);
-        Auto auto = a.get();
-        Cliente cliente = c.get();
-        auto.setCliente(cliente);
-        auto.setIsVentuta(true);
-        autoRepository.save(auto);
+            if (c.isPresent() && a.isPresent()) {
+                Auto auto = a.get();
+                Cliente cliente = c.get();
+                auto.setCliente(cliente);
+                auto.setIsVentuta(true);
+                autoRepository.save(auto);
+            } else {
+                throw new Exception("L'Id inserito non è corretto");
+            }
+
+
     }
 }

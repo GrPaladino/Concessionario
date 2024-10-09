@@ -34,7 +34,7 @@ public class AutoController {
 
 //    endpoint per assegnare un cliente ad un auto venduta
     @PutMapping("/auto/{autoId}/cliente/{clienteId}")
-    public void sellAuto(@PathVariable Integer autoId, @PathVariable Integer clienteId) {
+    public void sellAuto(@PathVariable Integer autoId, @PathVariable Integer clienteId) throws Exception {
         autoService.sellAuto(autoId, clienteId);
     }
 }
