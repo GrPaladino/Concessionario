@@ -86,12 +86,13 @@ public class ConcessonarioService {
 
 //    METODO PER RITORNARE LA LISTA DI AUTO PRESENTI NEL CONCESSONARIO
     public List<AutoDTO> getAutoPerConcessionario(Integer concessionarioId) {
-        Optional<Concessionario> c = concessionarioRepository.findById(concessionarioId);
         List<Auto> autos = autoRepository.findAll();
         List<AutoDTO> newAutoList = new ArrayList<>();
         for (Auto a : autos) {
+            if (a.getConcessionario().getId().equals(concessionarioId)) {
                 AutoDTO newAuto = AutoMapper.toDTO(a);
                 newAutoList.add(newAuto);
+            }
         }
         return newAutoList;
     }
