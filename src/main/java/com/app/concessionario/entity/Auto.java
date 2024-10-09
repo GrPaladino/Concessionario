@@ -43,12 +43,12 @@ public class Auto {
     @JsonManagedReference
     private Concessionario concessionario;
 
-//    oneToOne con Clienti
+    //    oneToOne con Clienti
     @OneToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
-//    manyToMany con Motori
+    //    manyToMany con Motori
     @ManyToMany
     @JoinTable(
 

@@ -3,7 +3,10 @@ package com.app.concessionario.mapper;
 
 import com.app.concessionario.dto.AutoDTO;
 import com.app.concessionario.entity.*;
+import com.app.concessionario.utils.enumerate.Carrozzeria;
+
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -26,8 +29,12 @@ public class AutoMapper {
 //        setta il colore del dto prendendolo dall'entity
         dto.setColore(auto.getColore());
 
-        //        setta la carrozzeria del dto prendendola dall'entity
-        dto.setCarrozzeria(auto.getCarrozzeria());
+        //        setta la carrozzeria del dto prendendola dall'entity e controllando negli ENNUM
+        for (Carrozzeria c : Carrozzeria.values()) {
+            if (c.name().toLowerCase(Locale.ROOT).matches((auto.getCarrozzeria()))) {
+                dto.setCarrozzeria(auto.getCarrozzeria());
+            }
+        }
 
         //        setta isVenduta del dto prendendolo dall'entity
         dto.setIsVentuta(auto.getIsVentuta());
@@ -41,14 +48,14 @@ public class AutoMapper {
             dto.setClienteId(auto.getCliente().getId());
         }
 
-            //        setta le motorizzazioni del dto prendendole dall'entity
-            dto.setMotoriIds(auto.getMotori().stream().map(Motore::getId).collect(Collectors.toList()));
+        //        setta le motorizzazioni del dto prendendole dall'entity
+        dto.setMotoriIds(auto.getMotori().stream().map(Motore::getId).collect(Collectors.toList()));
 
-            //        setta gli accessori del dto prendendoli dall'entity
-            dto.setAccessoriIds(auto.getAccessori().stream().map(Accessorio::getId).collect(Collectors.toList()));
+        //        setta gli accessori del dto prendendoli dall'entity
+        dto.setAccessoriIds(auto.getAccessori().stream().map(Accessorio::getId).collect(Collectors.toList()));
 
-            return dto;
-        }
+        return dto;
+    }
 
 
 
@@ -71,8 +78,12 @@ public class AutoMapper {
         //        setta lo stato prendendolo dal dto
         auto.setStato(autoDTO.getStato());
 
-        //        setta la carrozzeria prendendolo dal dto
-        auto.setCarrozzeria(autoDTO.getCarrozzeria());
+        //        setta la carrozzeria prendendolo dal dto e controllando se é presente negli ENUM
+        for (Carrozzeria c : Carrozzeria.values()) {
+            if (c.name().toLowerCase(Locale.ROOT).matches((autoDTO.getCarrozzeria()))) {
+                auto.setCarrozzeria(autoDTO.getCarrozzeria());
+            }
+        }
 
         //        setta il concessionario prendendo l'id dal dto
         for (Concessionario c : concessionari) {
