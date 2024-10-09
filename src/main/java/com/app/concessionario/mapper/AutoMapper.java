@@ -4,11 +4,11 @@ package com.app.concessionario.mapper;
 import com.app.concessionario.dto.AutoDTO;
 import com.app.concessionario.entity.*;
 import com.app.concessionario.utils.enumerate.Carrozzeria;
-
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
 
 public class AutoMapper {
 
@@ -31,8 +31,8 @@ public class AutoMapper {
 
         //        setta la carrozzeria del dto prendendola dall'entity e controllando negli ENNUM
         for (Carrozzeria c : Carrozzeria.values()) {
-            if (c.name().toLowerCase(Locale.ROOT).matches((auto.getCarrozzeria()))) {
-                dto.setCarrozzeria(auto.getCarrozzeria());
+            if (c.name().equalsIgnoreCase(auto.getCarrozzeria().name())) {
+                dto.setCarrozzeria(c.name());
             }
         }
 
@@ -80,8 +80,8 @@ public class AutoMapper {
 
         //        setta la carrozzeria prendendolo dal dto e controllando se é presente negli ENUM
         for (Carrozzeria c : Carrozzeria.values()) {
-            if (c.name().toLowerCase(Locale.ROOT).matches((autoDTO.getCarrozzeria()))) {
-                auto.setCarrozzeria(autoDTO.getCarrozzeria());
+            if (c.name().equalsIgnoreCase(autoDTO.getCarrozzeria())) {
+                auto.setCarrozzeria(c);
             }
         }
 

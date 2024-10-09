@@ -1,9 +1,9 @@
 package com.app.concessionario.entity;
 
+import com.app.concessionario.utils.enumerate.Carrozzeria;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.util.List;
 
 @Entity
@@ -32,7 +32,8 @@ public class Auto {
     private String stato;
 
     @Column(name = "carrozzeria")
-    private String carrozzeria;
+    @Enumerated(EnumType.STRING)
+    private Carrozzeria carrozzeria;
 
     @Column(name = "venduta", columnDefinition = "false")
     private Boolean isVentuta;

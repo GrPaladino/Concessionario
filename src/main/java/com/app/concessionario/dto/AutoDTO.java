@@ -1,9 +1,6 @@
 package com.app.concessionario.dto;
 
-import com.app.concessionario.entity.Accessorio;
-import com.app.concessionario.entity.Cliente;
-import com.app.concessionario.entity.Concessionario;
-import com.app.concessionario.entity.Motore;
+import com.app.concessionario.utils.enumerate.Carrozzeria;
 import lombok.Data;
 
 import java.util.List;
