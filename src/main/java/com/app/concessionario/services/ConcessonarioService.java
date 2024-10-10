@@ -24,31 +24,6 @@ public class ConcessonarioService {
     @Autowired
     AutoRepository autoRepository;
 
-
-//    public List<Concessionario> getConcessionari() {
-//        return concessionarioRepository.findAll();
-//    }
-//
-//    public Concessionario getConcessionario(Integer id) {
-//        Optional<Concessionario> concessionario = concessionarioRepository.findById(id);
-//        return concessionario.orElse(null);
-//    }
-
-//    public void addConcessionario(Concessionario concessionario) {
-//        concessionarioRepository.save(concessionario);
-//    }
-//
-//    public void updateConcessionario(Integer id, Concessionario concessionario) {
-//        concessionario.setId(id);
-//        concessionarioRepository.save(concessionario);
-//    }
-
-    public void deleteConcessionario(Integer id) {
-        concessionarioRepository.deleteById(id);
-    }
-
-
-
 //                              CHIAMATE DTO
 
     //    chiamata get di tutti gli accessori
@@ -68,7 +43,8 @@ public class ConcessonarioService {
         return ConcessionarioMapper.toDTO(c.get());
     }
 
-//    chiamata post per creare un nuovo concessionario ##### NON RITORNA LA LISTA DELLE AUTO
+//    chiamata post per creare un nuovo concessionario
+//    #### TODO GESTIRE NUOVO CONC CON STESSO ID O P_IVA
     public void addConcessionarioDTO(ConcessionarioDTO concessionarioDTO) {
         List<Auto> autos = autoRepository.findAll();
         Concessionario newConcessionario = ConcessionarioMapper.toEntity(concessionarioDTO, autos);
@@ -83,6 +59,13 @@ public class ConcessonarioService {
         concessionarioRepository.save(newConcessionario);
 
     }
+
+//    chiamata per eliminare un concessionario
+//    #### TODO GESTIRE ID NON PRESENTE
+    public void deleteConcessionario(Integer id) {
+    concessionarioRepository.deleteById(id);
+}
+
 
 //    METODO PER RITORNARE LA LISTA DI AUTO PRESENTI NEL CONCESSONARIO
     public List<AutoDTO> getAutoPerConcessionario(Integer concessionarioId) {

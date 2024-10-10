@@ -26,28 +26,6 @@ public class AutoService {
     @Autowired
     ConcessionarioRepository concessionarioRepository;
 
-//    public List<Auto> getAutos() {
-//        return autoRepository.findAll();
-//    }
-
-//    public Auto getAuto(Integer id) {
-//        Optional<Auto> auto = autoRepository.findById(id);
-//        return auto.orElse(null);
-//    }
-
-//    public void addAuto(Auto auto) {
-//        autoRepository.save(auto);
-//    }
-
-//    public void updateAuto(Integer id, Auto auto) {
-//        auto.setId(id);
-//        autoRepository.save(auto);
-//    }
-
-    public void deleteAuto(Integer id) {
-        autoRepository.deleteById(id);
-    }
-
 
 //                                CHIAMATE DTO
 //
@@ -72,6 +50,7 @@ public class AutoService {
 
 
 //    chiamata post per creare una nuova auto
+//    ###### TODO gestire creazione accessorio con stesso id
     public void addAutoDTO(AutoDTO autoDTO) {
         List<Motore> motori = motoreRepository.findAll();
         List<Accessorio> accessori = accessorioRepository.findAll();
@@ -82,7 +61,6 @@ public class AutoService {
     }
 
 //    chiamata put per update auto
-
     public void updateAutoDTO(Integer id, AutoDTO autoDTO) {
         List<Motore> motori = motoreRepository.findAll();
         List<Accessorio> accessori = accessorioRepository.findAll();
@@ -93,20 +71,24 @@ public class AutoService {
         autoRepository.save(newAuto);
     }
 
+//    chiamata per eliminare un auto
+//    ##### TODO GESTIRE ID NON ESISTENTE
+    public void deleteAuto(Integer id) {
+    autoRepository.deleteById(id);
+}
+
+
 
 //    METODO PER AGGIORNARE IL CLIENTE ID DI UN AUTO QUANDO VIENE VENDUTA
-    public void sellAuto(Integer autoId, Integer clienteId) throws Exception {
+    public void sellAuto(Integer autoId, Integer clienteId) {
         Optional<Auto> a = autoRepository.findById(autoId);
         Optional<Cliente> c = clienteRepository.findById(clienteId);
-            if (c.isPresent() && a.isPresent()) {
                 Auto auto = a.get();
                 Cliente cliente = c.get();
                 auto.setCliente(cliente);
                 auto.setIsVentuta(true);
                 autoRepository.save(auto);
-            } else {
-                throw new Exception("L'Id inserito non è corretto");
-            }
+
 
 
     }

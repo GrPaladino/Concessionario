@@ -22,29 +22,6 @@ public class ClienteService {
     @Autowired
     private ConcessionarioRepository concessionarioRepository;
 
-//    public List<Cliente> getClienti() {
-//        return clienteRepository.findAll();
-//    }
-//
-//    public Cliente getCliente(Integer id) {
-//        Optional<Cliente> cliente = clienteRepository.findById(id);
-//        return cliente.orElse(null);
-//    }
-//
-//    public void addCliente(Cliente cliente) {
-//        clienteRepository.save(cliente);
-//    }
-//
-//    public void updateCliente(Integer id, Cliente cliente) {
-//        cliente.setId(id);
-//        clienteRepository.save(cliente);
-//    }
-
-    public void deleteCliente(Integer id) {
-        clienteRepository.deleteById(id);
-    }
-
-
 //                                  CHIAMATE DTO
 
 //    chiamata get per tutti i clienti
@@ -65,6 +42,7 @@ public class ClienteService {
     }
 
 //    chiamata in post per creare un nuovo cliente
+//    #### TODO GESTIRE NUOVO CLIENTE CON STESSO ID O LA STESSA MAIL
     public void addClienteDTO(ClienteDTO clienteDTO) {
         List<Concessionario> concessionari = concessionarioRepository.findAll();
         Cliente newCliente = ClienteMapper.toEntity(clienteDTO, concessionari);
@@ -78,4 +56,11 @@ public class ClienteService {
         newCliente.setId(id);
         clienteRepository.save(newCliente);
     }
+
+//    chiamata per eliminare un cliente
+//    #### TODO GESTIRE ID NON ESISTENTE
+    public void deleteCliente(Integer id) {
+    clienteRepository.deleteById(id);
+}
+
 }

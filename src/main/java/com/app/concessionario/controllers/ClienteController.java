@@ -4,6 +4,8 @@ import com.app.concessionario.dto.ClienteDTO;
 import com.app.concessionario.entity.Cliente;
 import com.app.concessionario.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,19 +17,49 @@ public class ClienteController {
     private ClienteService clienteService;
 
     @GetMapping("/clienti")
-    public List<ClienteDTO> getClientiDTO() {return clienteService.getClientiDTO();}
+    public ResponseEntity<?> getClientiDTO() {
+        if (clienteService.getClientiDTO() == null) {
+            return new ResponseEntity<>("Nessun cliente presente", HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(clienteService.getClientiDTO(), HttpStatus.OK);
+    }
 
     @GetMapping("/cliente/{id}")
-    public ClienteDTO getClienteDTO(@PathVariable Integer id) {return clienteService.getClienteDTO(id);}
+    public ResponseEntity<?> getClienteDTO(@PathVariable Integer id) {
+        try {
+            return new ResponseEntity<>(clienteService.getClienteDTO(id), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("L'id inserito non è corretto", HttpStatus.NOT_FOUND);
+        }
+    }
 
     @PostMapping("/clienti")
-    public void addClientiDTO(@RequestBody ClienteDTO clienteDTO) {clienteService.addClienteDTO(clienteDTO);}
+    public ResponseEntity<?> addClientiDTO(@RequestBody ClienteDTO clienteDTO) {
+        try {
+            clienteService.addClienteDTO(clienteDTO);
+            return new ResponseEntity<>("Nuova auto inserita",HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("I dati inseriti sono incompleti", HttpStatus.BAD_REQUEST);
+        }
+    }
 
     @PutMapping("/cliente/{id}")
-    public void updateClienteDTO(@PathVariable Integer id, @RequestBody ClienteDTO clienteDTO) {
-        clienteService.updateClienteDTO(id, clienteDTO);
+    public ResponseEntity<?> updateClienteDTO(@PathVariable Integer id, @RequestBody ClienteDTO clienteDTO) {
+        try {
+            clienteService.updateClienteDTO(id, clienteDTO);
+            return new ResponseEntity<>("Cliente modificato con successo", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("I dati inseriti sono incompleti", HttpStatus.BAD_REQUEST);
+        }
     }
 
     @DeleteMapping("/cliente/{id}")
-    public void deleteCliente(@PathVariable Integer id) {clienteService.deleteCliente(id);}
+    public ResponseEntity<?> deleteCliente(@PathVariable Integer id) {
+        try {
+            clienteService.deleteCliente(id);
+            return new ResponseEntity<>("Operazione effettuata con successo", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Cliente selezionato non valido", HttpStatus.BAD_REQUEST);
+        }
+    }
 }

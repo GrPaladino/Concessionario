@@ -22,28 +22,6 @@ public class AccessorioService {
     @Autowired
     public AutoRepository autoRepository;
 
-//    public List<Accessorio> getAccessori() {
-//        return accessorioRepository.findAll();
-//    }
-
-//    public Accessorio getAccessorio(Integer id) {
-//        Optional<Accessorio> accessorio = accessorioRepository.findById(id);
-//        return accessorio.orElse(null);
-//
-//    }
-
-//    public void addAccessorio(Accessorio accessorio) {
-//        accessorioRepository.save(accessorio);
-//    }
-
-//    public void updateAccessorio(Integer id, Accessorio accessorio) {
-//        accessorio.setId(id);
-//        accessorioRepository.save(accessorio);
-//    }
-
-    public void deleteAccessorio(Integer id) {
-        accessorioRepository.deleteById(id);
-    }
 
 //                              CHIAMATE DTO
 
@@ -66,7 +44,8 @@ public class AccessorioService {
 
 
 
-//    chiamata post per creare un nuovo accessorio #####RITORNA ERRORE 500
+//    chiamata post per creare un nuovo accessorio
+//    ###### TODO gestire creazione accessorio con stesso id
     public void addAccessorioDTO(AccessorioDTO accessorioDTO) {
         List<Auto> autos = autoRepository.findAll();
         Accessorio newAccessorio = AccessorioMapper.toEntity(accessorioDTO, autos);
@@ -80,6 +59,12 @@ public class AccessorioService {
         Accessorio newAccessorio = AccessorioMapper.toEntity(accessorioDTO, autos);
         newAccessorio.setId(id);
         accessorioRepository.save(newAccessorio);
+    }
+
+//    chiamata per eliminare un accessorio
+//    #### TODO GESTIRE ID NON PRESENTE
+    public void deleteAccessorio(Integer id) {
+        accessorioRepository.deleteById(id);
     }
 
 }

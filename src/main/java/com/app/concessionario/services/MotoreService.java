@@ -23,29 +23,6 @@ public class MotoreService {
     @Autowired
     private AutoRepository autoRepository;
 
-//    public List<Motore> getMotori() {
-//        return motoreRepository.findAll();
-//    }
-//
-//    public Motore getMotore(Integer id) {
-//        Optional<Motore> motore = motoreRepository.findById(id);
-//        return motore.orElse(null);
-//    }
-//
-//    public void addMotore(Motore motore) {
-//        motoreRepository.save(motore);
-//    }
-//
-//    public void updateMotore(Integer id, Motore motore) {
-//        motore.setId(id);
-//        motoreRepository.save(motore);
-//    }
-
-    public void deleteMotore(Integer id) {
-        motoreRepository.deleteById(id);
-    }
-
-
 //                              CHIAMATE DTO
 
 //    chiamata get per tutti i motori
@@ -67,6 +44,7 @@ public class MotoreService {
     }
 
 //    chiamata post per creare un nuovo motore
+//    #### TODO GESTIRE NUOVO MOTORE CON STESSO ID
     public void addMotoreDTO(MotoreDTO motoreDTO) {
         List<Auto> auto = autoRepository.findAll();
         Motore newMotore = MotoreMapper.toEntity(motoreDTO, auto);
@@ -80,4 +58,10 @@ public class MotoreService {
         newMotore.setId(id);
         motoreRepository.save(newMotore);
     }
+
+//    chiamata per eliminare un motore
+//    #### TODO GESTIRE ID NON PRESENTE
+    public void deleteMotore(Integer id) {
+    motoreRepository.deleteById(id);
+}
 }
