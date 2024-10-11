@@ -40,7 +40,7 @@ public class MotoreController {
             motoreService.addMotoreDTO(motoreDTO);
             return new ResponseEntity<>("Nuovo motore inserito", HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>("I dati inseriti sono incompleti", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -60,7 +60,7 @@ public class MotoreController {
             motoreService.deleteMotore(id);
             return  new ResponseEntity<>("Operazione effettuata con successo", HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>("Motore selezionato non valido", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 }

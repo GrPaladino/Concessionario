@@ -59,7 +59,7 @@ public class AutoMapper {
 
 
 
-    public static Auto toEntity(AutoDTO autoDTO, List<Motore> motori, List<Accessorio> accessori, List<Cliente> clienti, List<Concessionario> concessionari) {
+    public static Auto toEntity(AutoDTO autoDTO, List<Motore> motori, List<Accessorio> accessori, List<Cliente> clienti, List<Concessionario> concessionari) throws Exception {
 
 //        crea nuova auto
         Auto auto = new Auto();
@@ -100,22 +100,22 @@ public class AutoMapper {
         }
 
         //        setta le motorizzazioni prendendolo dal dto
-        auto.setMotori(autoDTO.getMotoriIds().stream()
-                .map(motoriId -> motori.stream()
-                        .filter(motore -> motore.getId().equals(motoriId))
-                        .findFirst()
-                        .orElseThrow(() -> new IllegalArgumentException("Motore con ID " + motoriId + " non trovato"))
-                ).collect(Collectors.toList()));
+        if (autoDTO.getMotoriIds() != null)
+            auto.setMotori(autoDTO.getMotoriIds().stream()
+                    .map(motoriId -> motori.stream()
+                            .filter(motore -> motore.getId().equals(motoriId))
+                            .findFirst()
+                            .orElseThrow(() -> new IllegalArgumentException("Motore con ID " + motoriId + " non trovato"))
+                    ).collect(Collectors.toList()));
 
         //        setta gli accessori prendendolo dal dto
-        auto.setAccessori(autoDTO.getAccessoriIds().stream()
-                .map(accessoriId -> accessori.stream()
-                        .filter(accessorio -> accessorio.getId().equals(accessoriId))
-                        .findFirst()
-                        .orElseThrow(() -> new IllegalArgumentException("Accessorio con ID " + accessoriId + " non trovato"))
-                ).collect(Collectors.toList())
-
-        );
+        if (autoDTO.getAccessoriIds() != null)
+            auto.setAccessori(autoDTO.getAccessoriIds().stream()
+                    .map(accessoriId -> accessori.stream()
+                            .filter(accessorio -> accessorio.getId().equals(accessoriId))
+                            .findFirst()
+                            .orElseThrow(() -> new IllegalArgumentException("Accessorio con ID " + accessoriId + " non trovato"))
+                    ).collect(Collectors.toList()));
 
         return auto;
 

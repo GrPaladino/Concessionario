@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class AccessorioService {
@@ -45,8 +46,15 @@ public class AccessorioService {
 
 
 //    chiamata post per creare un nuovo accessorio
-//    ###### TODO gestire creazione accessorio con stesso id
-    public void addAccessorioDTO(AccessorioDTO accessorioDTO) {
+    public void addAccessorioDTO(AccessorioDTO accessorioDTO) throws Exception {
+        List<Integer> accessoriIds = accessorioRepository.findAll().stream().map(Accessorio::getId).toList();
+        if (accessoriIds.contains(accessorioDTO.getId())) {
+            throw new Exception("L'id inserito non è valido");
+        } else if (accessorioDTO.getNome() == null) {
+            throw new Exception("Il campo nome non può essere vuoto");
+        } else if (accessorioDTO.getNome().length() > 100) {
+            throw new Exception("La lunghezza del nome non può superare i 100 caratteri");
+        }
         List<Auto> autos = autoRepository.findAll();
         Accessorio newAccessorio = AccessorioMapper.toEntity(accessorioDTO, autos);
         accessorioRepository.save(newAccessorio);
@@ -62,9 +70,13 @@ public class AccessorioService {
     }
 
 //    chiamata per eliminare un accessorio
-//    #### TODO GESTIRE ID NON PRESENTE
-    public void deleteAccessorio(Integer id) {
+    public void deleteAccessorio(Integer id) throws Exception {
+        List<Integer> accessoriIds = accessorioRepository.findAll().stream().map(Accessorio::getId).toList();
+        if (accessoriIds.contains(id)) {
         accessorioRepository.deleteById(id);
+        } else {
+            throw new Exception("Accessorio selezionato non valido");
+        }
     }
 
 }

@@ -38,7 +38,7 @@ public class ConcessionarioController {
             concessonarioService.addConcessionarioDTO(concessionarioDTO);
             return new ResponseEntity<>("Nuovo concessionario inserito", HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>("I dati inseriti sono incompleti", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -58,7 +58,7 @@ public class ConcessionarioController {
             concessonarioService.deleteConcessionario(id);
             return new ResponseEntity<>("Operazione effettuata con successo", HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>("Concessionario selezionato non valido", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 
@@ -68,10 +68,9 @@ public class ConcessionarioController {
     @GetMapping("concessionario/{id}/auto")
     public ResponseEntity<?> getAutoPerConcessionario(@PathVariable Integer id) {
         try {
-            concessonarioService.getAutoPerConcessionario(id);
-            return new ResponseEntity<>("Operazione effettuata con successo", HttpStatus.OK);
+            return new ResponseEntity<>(concessonarioService.getAutoPerConcessionario(id), HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>("I dati inseriti non sono corretti", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 }

@@ -44,8 +44,17 @@ public class MotoreService {
     }
 
 //    chiamata post per creare un nuovo motore
-//    #### TODO GESTIRE NUOVO MOTORE CON STESSO ID
-    public void addMotoreDTO(MotoreDTO motoreDTO) {
+    public void addMotoreDTO(MotoreDTO motoreDTO) throws Exception {
+        List<Integer> motoriIds = motoreRepository.findAll().stream().map(Motore::getId).toList();
+        if (motoriIds.contains(motoreDTO.getId())) {
+            throw new Exception("L'id inserito non è valido");
+        } else if (motoreDTO.getPotenza() == null) {
+            throw new Exception("Il campo potenza non può essere vuoto");
+        } else if (motoreDTO.getCilindrata() == null) {
+            throw new Exception("Il campo cilindrata non può essere vuoto");
+        } else if (motoreDTO.getCarburante() == null) {
+            throw new Exception("Il campo carburante non può essere vuoto");
+        }
         List<Auto> auto = autoRepository.findAll();
         Motore newMotore = MotoreMapper.toEntity(motoreDTO, auto);
         motoreRepository.save(newMotore);
@@ -60,8 +69,11 @@ public class MotoreService {
     }
 
 //    chiamata per eliminare un motore
-//    #### TODO GESTIRE ID NON PRESENTE
-    public void deleteMotore(Integer id) {
+    public void deleteMotore(Integer id) throws Exception {
+        List<Integer> motoriIds = motoreRepository.findAll().stream().map(Motore::getId).toList();
+        if (!motoriIds.contains(id)) {
+            throw new Exception("Motore selezionato non valido");
+        }
     motoreRepository.deleteById(id);
 }
 }

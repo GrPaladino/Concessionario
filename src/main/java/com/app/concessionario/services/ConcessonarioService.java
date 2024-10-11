@@ -44,8 +44,22 @@ public class ConcessonarioService {
     }
 
 //    chiamata post per creare un nuovo concessionario
-//    #### TODO GESTIRE NUOVO CONC CON STESSO ID O P_IVA
-    public void addConcessionarioDTO(ConcessionarioDTO concessionarioDTO) {
+    public void addConcessionarioDTO(ConcessionarioDTO concessionarioDTO) throws Exception {
+        List<Integer> concessionariIds = concessionarioRepository.findAll().stream().map(Concessionario::getId).toList();
+        List<String> pIvas = concessionarioRepository.findAll().stream().map(Concessionario::getP_iva).toList();
+        if (concessionariIds.contains(concessionarioDTO)) {
+            throw new Exception("L'id inserito non è valido");
+        } else if (concessionarioDTO.getNome().length() > 100) {
+            throw new Exception("La lunghezza del campo nome non può superare 100 caratteri");
+        } else if (concessionarioDTO.getIndirizzo().length() > 200) {
+            throw new Exception("La lunghezza del campo indirizzo non può superare 200 caratteri");
+        } else if (concessionarioDTO.getP_iva().length() > 11) {
+            throw new Exception("La lunghezza del campo p_iva non può superare 11 caratteri");
+        } else if (concessionarioDTO.getP_iva() == null) {
+            throw new Exception("Il campo p_iva non può essere vuoto");
+        }else if (pIvas.contains(concessionarioDTO.getP_iva())) {
+            throw new Exception("Il campo p_iva è già esistente");
+        }
         List<Auto> autos = autoRepository.findAll();
         Concessionario newConcessionario = ConcessionarioMapper.toEntity(concessionarioDTO, autos);
         concessionarioRepository.save(newConcessionario);
@@ -61,18 +75,29 @@ public class ConcessonarioService {
     }
 
 //    chiamata per eliminare un concessionario
-//    #### TODO GESTIRE ID NON PRESENTE
-    public void deleteConcessionario(Integer id) {
-    concessionarioRepository.deleteById(id);
+    public void deleteConcessionario(Integer id) throws Exception {
+        List<Integer> concessionariIds = concessionarioRepository.findAll().stream().map(Concessionario::getId).toList();
+        if (concessionariIds.contains(id)) {
+            concessionarioRepository.deleteById(id);
+        } else {
+            throw new Exception("Concessionario selezionato non valido");
+        }
 }
 
 
 //    METODO PER RITORNARE LA LISTA DI AUTO PRESENTI NEL CONCESSONARIO
-    public List<AutoDTO> getAutoPerConcessionario(Integer concessionarioId) {
+    public List<AutoDTO> getAutoPerConcessionario(Integer id) throws Exception {
+        List<Integer> concessionariIds = concessionarioRepository.findAll().stream().map(Concessionario::getId).toList();
+        Optional<Concessionario> c = concessionarioRepository.findById(id);
+        if (!concessionariIds.contains(id)) {
+            throw new Exception("Concessionario selezionato non valido");
+        } else if (c.get().getAutos().isEmpty()) {
+            throw new Exception("Il concessionario selezionato non ha nessuna auto");
+        }
         List<Auto> autos = autoRepository.findAll();
         List<AutoDTO> newAutoList = new ArrayList<>();
         for (Auto a : autos) {
-            if (a.getConcessionario().getId().equals(concessionarioId)) {
+            if (a.getConcessionario().getId().equals(id)) {
                 AutoDTO newAuto = AutoMapper.toDTO(a);
                 newAutoList.add(newAuto);
             }

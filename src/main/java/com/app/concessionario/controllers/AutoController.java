@@ -38,7 +38,7 @@ public class AutoController {
             autoService.addAutoDTO(autoDTO);
             return new ResponseEntity<>("Nuova auto inserita", HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>("I dati inseriti sono incompleti", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -58,7 +58,7 @@ public class AutoController {
             autoService.deleteAuto(id);
             return new ResponseEntity<>("Operazione effettuata con successo", HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>("Auto selezionata non valida", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 
@@ -71,7 +71,7 @@ public class AutoController {
             autoService.sellAuto(autoId, clienteId);
             return new ResponseEntity<>("Operazione effettuata con successo", HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>("I dati inseriti non sono corretti", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 }

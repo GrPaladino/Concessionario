@@ -39,7 +39,7 @@ public class ClienteController {
             clienteService.addClienteDTO(clienteDTO);
             return new ResponseEntity<>("Nuova auto inserita",HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>("I dati inseriti sono incompleti", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -59,7 +59,7 @@ public class ClienteController {
             clienteService.deleteCliente(id);
             return new ResponseEntity<>("Operazione effettuata con successo", HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>("Cliente selezionato non valido", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 }
