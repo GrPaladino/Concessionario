@@ -37,7 +37,11 @@ public class ClienteService {
     }
 
 //    chiamata get per un singolo cliente
-    public ClienteDTO getClienteDTO(Integer id) {
+    public ClienteDTO getClienteDTO(Integer id) throws Exception {
+        List<Integer> clientiIds = clienteRepository.findAll().stream().map(Cliente::getId).toList();
+        if (!clientiIds.contains(id))
+            throw new Exception("L'id inserito non è corretto");
+
         Optional<Cliente> c = clienteRepository.findById(id);
         return ClienteMapper.toDTO(c.get());
     }
@@ -68,11 +72,30 @@ public class ClienteService {
     }
 
 //    chiamata per update cliente
-    public void updateClienteDTO(Integer id, ClienteDTO clienteDTO) {
-        List<Concessionario> concessionari = concessionarioRepository.findAll();
-        Cliente newCliente = ClienteMapper.toEntity(clienteDTO, concessionari);
-        newCliente.setId(id);
-        clienteRepository.save(newCliente);
+    public void updateClienteDTO(Integer id, ClienteDTO clienteDTO) throws Exception {
+        List<Integer> clientiIds = clienteRepository.findAll().stream().map(Cliente::getId).toList();
+        if (clientiIds.contains(id)) {
+            List<String> clientiMails = clienteRepository.findAll().stream().map(Cliente::getEmail).toList();
+            if (clientiMails.contains(clienteDTO.getEmail())) {
+                throw new Exception("La mail inserita è già presente");
+            } else if (clienteDTO.getEmail() == null) {
+                throw new Exception("Il campo email non può essere vuoto");
+            } else if (clienteDTO.getNome().length() > 30) {
+                throw new Exception("Il campo nome non può superare i 30 caratteri");
+            } else if (clienteDTO.getCognome().length() > 30) {
+                throw new Exception("Il campo cognome non può superare i 30 caratteri");
+            } else if (clienteDTO.getEmail().length() > 100) {
+                throw new Exception("Il campo email non può superare i 100 caratteri");
+            } else if (clienteDTO.getTelefono().length() > 100) {
+                throw new Exception("Il campo telefono non può superare i 30 caratteri");
+            }
+            List<Concessionario> concessionari = concessionarioRepository.findAll();
+            Cliente newCliente = ClienteMapper.toEntity(clienteDTO, concessionari);
+            newCliente.setId(id);
+            clienteRepository.save(newCliente);
+        } else {
+            throw new Exception("L'id inserito non è valido");
+        }
     }
 
 //    chiamata per eliminare un cliente

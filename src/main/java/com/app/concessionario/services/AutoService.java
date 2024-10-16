@@ -41,10 +41,15 @@ public class AutoService {
     }
 
 //    chiamata get per una singola auto
-    public AutoDTO getAutoDTO(Integer id) {
+    public AutoDTO getAutoDTO(Integer id) throws Exception {
+        List<Integer> autoIds = autoRepository.findAll().stream().map(Auto::getId).toList();
+
+        if (!autoIds.contains(id))
+            throw new Exception("L'id inserito non é corretto");
+
         Optional<Auto> a = autoRepository.findById(id);
-        List<Cliente> clienti = clienteRepository.findAll();
         return AutoMapper.toDTO(a.get());
+
     }
 
 
@@ -68,11 +73,51 @@ public class AutoService {
             throw new Exception("La lunghezza del campo stato non può superare i 20 caratteri");
         } else if (autoDTO.getCarrozzeria() == null) {
             throw new Exception("Il campo carrozzeria non può essere vuoto");
-        } else if (autoDTO.getCarrozzeria() != null) {
+        }
+        if (autoDTO.getCarrozzeria().equalsIgnoreCase("suv") ||
+                autoDTO.getCarrozzeria().equalsIgnoreCase("berlina") ||
+                autoDTO.getCarrozzeria().equalsIgnoreCase("crossover") ||
+                autoDTO.getCarrozzeria().equalsIgnoreCase("stationwagon") ||
+                autoDTO.getCarrozzeria().equalsIgnoreCase("utilitaria")) {
+
+            List<Motore> motori = motoreRepository.findAll();
+            List<Accessorio> accessori = accessorioRepository.findAll();
+            List<Cliente> clienti = clienteRepository.findAll();
+            List<Concessionario> concessionari = concessionarioRepository.findAll();
+            Auto newAuto = AutoMapper.toEntity(autoDTO, motori, accessori, clienti, concessionari);
+            autoRepository.save(newAuto);
+        } else {
+            throw new Exception("I campi carrozzeria disponibili sono: 'suv', 'berlina', 'stationwagon', 'crossover', 'utilitaria'");
+        }
+
+
+    }
+
+//    chiamata put per update auto
+    public void updateAutoDTO(Integer id, AutoDTO autoDTO) throws Exception {
+        List<Integer> autoIds = autoRepository.findAll().stream().map(Auto::getId).toList();
+        if (autoIds.contains(id)) {
+
+
+            if (autoDTO.getBrand() == null) {
+                throw new Exception("Il campo brand non può essere vuoto");
+            } else if (autoDTO.getModello() == null) {
+                throw new Exception("Il campo modello non può essere vuoto");
+            } else if (autoDTO.getBrand().length() > 50) {
+                throw new Exception("La lunghezza del campo brand non può superare i 50 caratteri");
+            } else if (autoDTO.getModello().length() > 50) {
+                throw new Exception("La lunghezza del campo modello non può superare i 50 caratteri");
+            } else if (autoDTO.getColore().length() > 20) {
+                throw new Exception("La lunghezza del campo colore non può superare i 20 caratteri");
+            } else if (autoDTO.getStato() != null && autoDTO.getStato().length() > 50) {
+                throw new Exception("La lunghezza del campo stato non può superare i 20 caratteri");
+            } else if (autoDTO.getCarrozzeria() == null) {
+                throw new Exception("Il campo carrozzeria non può essere vuoto");
+            }
             if (autoDTO.getCarrozzeria().equalsIgnoreCase("suv") ||
                     autoDTO.getCarrozzeria().equalsIgnoreCase("berlina") ||
                     autoDTO.getCarrozzeria().equalsIgnoreCase("crossover") ||
-                    autoDTO.getCarrozzeria().equalsIgnoreCase("stationwagen") ||
+                    autoDTO.getCarrozzeria().equalsIgnoreCase("stationwagon") ||
                     autoDTO.getCarrozzeria().equalsIgnoreCase("utilitaria")) {
 
                 List<Motore> motori = motoreRepository.findAll();
@@ -85,18 +130,9 @@ public class AutoService {
                 throw new Exception("I campi carrozzeria disponibili sono: 'suv', 'berlina', 'stationwagon', 'crossover', 'utilitaria'");
             }
 
+        } else {
+            throw new Exception("L'id inserito non è valido");
         }
-    }
-
-//    chiamata put per update auto
-    public void updateAutoDTO(Integer id, AutoDTO autoDTO) throws Exception {
-        List<Motore> motori = motoreRepository.findAll();
-        List<Accessorio> accessori = accessorioRepository.findAll();
-        List<Cliente> clienti = clienteRepository.findAll();
-        List<Concessionario> concessionari = concessionarioRepository.findAll();
-        Auto newAuto = AutoMapper.toEntity(autoDTO, motori, accessori, clienti, concessionari);
-        newAuto.setId(id);
-        autoRepository.save(newAuto);
     }
 
 //    chiamata per eliminare un auto

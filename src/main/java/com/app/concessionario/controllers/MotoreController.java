@@ -30,7 +30,7 @@ public class MotoreController {
             return new ResponseEntity<>(motoreService.getMotoreDTO(id), HttpStatus.OK);
         }
         catch (Exception e) {
-            return new ResponseEntity<>("L'id inserito non è corretto", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 
@@ -50,7 +50,7 @@ public class MotoreController {
             motoreService.updateMotoreDTO(id, motoreDTO);
             return new ResponseEntity<>("Motore modificato con successo", HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>("I dati inseriti sono incompleti", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 

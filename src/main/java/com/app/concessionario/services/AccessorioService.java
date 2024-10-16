@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class AccessorioService {
@@ -38,7 +37,11 @@ public class AccessorioService {
     }
 
 //    chiamata get per un singolo accessorio
-    public AccessorioDTO getAccessorioDto(Integer id) {
+    public AccessorioDTO getAccessorioDto(Integer id) throws Exception {
+        List<Integer> accIds = accessorioRepository.findAll().stream().map(Accessorio::getId).toList();
+        if (!accIds.contains(id))
+            throw new Exception("L'id inserito non è corretto");
+
         Optional<Accessorio> a = accessorioRepository.findById(id);
         return AccessorioMapper.toDTO(a.get());
     }
@@ -55,18 +58,28 @@ public class AccessorioService {
         } else if (accessorioDTO.getNome().length() > 100) {
             throw new Exception("La lunghezza del nome non può superare i 100 caratteri");
         }
+
         List<Auto> autos = autoRepository.findAll();
         Accessorio newAccessorio = AccessorioMapper.toEntity(accessorioDTO, autos);
         accessorioRepository.save(newAccessorio);
     }
 
-//    chiamata put per update accessorio
-
-    public void updateAccessorioDTO(Integer id, AccessorioDTO accessorioDTO) {
-        List<Auto> autos = autoRepository.findAll();
-        Accessorio newAccessorio = AccessorioMapper.toEntity(accessorioDTO, autos);
-        newAccessorio.setId(id);
-        accessorioRepository.save(newAccessorio);
+    //    chiamata put per update accessorio
+    public void updateAccessorioDTO(Integer id, AccessorioDTO accessorioDTO) throws Exception {
+        List<Integer> accessoriIds = accessorioRepository.findAll().stream().map(Accessorio::getId).toList();
+        if (accessoriIds.contains(id)) {
+            if (accessorioDTO.getNome() == null) {
+                throw new Exception("Il campo nome non può essere vuoto");
+            } else if (accessorioDTO.getNome().length() > 100) {
+                throw new Exception("La lunghezza del nome non può superare i 100 caratteri");
+            }
+            List<Auto> autos = autoRepository.findAll();
+            Accessorio newAccessorio = AccessorioMapper.toEntity(accessorioDTO, autos);
+            newAccessorio.setId(id);
+            accessorioRepository.save(newAccessorio);
+        } else {
+            throw new Exception("L'id inserito non è valido");
+        }
     }
 
 //    chiamata per eliminare un accessorio

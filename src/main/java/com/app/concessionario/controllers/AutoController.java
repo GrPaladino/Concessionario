@@ -28,7 +28,7 @@ public class AutoController {
         try {
             return new ResponseEntity<>(autoService.getAutoDTO(id), HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>("L'id inserito non é corretto", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 
@@ -48,7 +48,7 @@ public class AutoController {
             autoService.updateAutoDTO(id, autoDTO);
             return new ResponseEntity<>("Operazione effettuata con successo", HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>("I dati inseriti sono inclompleti", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 

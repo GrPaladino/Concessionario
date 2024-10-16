@@ -29,7 +29,7 @@ public class AccessorioController {
             return new ResponseEntity<>(accessorioService.getAccessorioDto(id), HttpStatus.OK);
         }
         catch(Exception e) {
-            return new ResponseEntity<>("L'id inserito non è corretto", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 
@@ -50,7 +50,7 @@ public class AccessorioController {
             return new ResponseEntity<>("Accessorio modificato con successo", HttpStatus.OK);
         }
         catch (Exception e) {
-            return new ResponseEntity<>("I dati inseriti sono incompleti", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
