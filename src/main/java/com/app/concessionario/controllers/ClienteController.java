@@ -11,12 +11,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/clienti")
 public class ClienteController {
 
     @Autowired
     private ClienteService clienteService;
 
-    @GetMapping("/clienti")
+    @GetMapping
     public ResponseEntity<?> getClientiDTO() {
         if (clienteService.getClientiDTO() == null) {
             return new ResponseEntity<>("Nessun cliente presente", HttpStatus.NOT_FOUND);
@@ -24,7 +25,7 @@ public class ClienteController {
         return new ResponseEntity<>(clienteService.getClientiDTO(), HttpStatus.OK);
     }
 
-    @GetMapping("/cliente/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> getClienteDTO(@PathVariable Integer id) {
         try {
             return new ResponseEntity<>(clienteService.getClienteDTO(id), HttpStatus.OK);
@@ -33,7 +34,7 @@ public class ClienteController {
         }
     }
 
-    @PostMapping("/clienti")
+    @PostMapping
     public ResponseEntity<?> addClientiDTO(@RequestBody ClienteDTO clienteDTO) {
         try {
             clienteService.addClienteDTO(clienteDTO);
@@ -43,7 +44,7 @@ public class ClienteController {
         }
     }
 
-    @PutMapping("/cliente/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<?> updateClienteDTO(@PathVariable Integer id, @RequestBody ClienteDTO clienteDTO) {
         try {
             clienteService.updateClienteDTO(id, clienteDTO);
@@ -53,7 +54,7 @@ public class ClienteController {
         }
     }
 
-    @DeleteMapping("/cliente/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteCliente(@PathVariable Integer id) {
         try {
             clienteService.deleteCliente(id);

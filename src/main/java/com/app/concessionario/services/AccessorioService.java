@@ -38,26 +38,28 @@ public class AccessorioService {
 
 //    chiamata get per un singolo accessorio
     public AccessorioDTO getAccessorioDto(Integer id) throws Exception {
-        List<Integer> accIds = accessorioRepository.findAll().stream().map(Accessorio::getId).toList();
-        if (!accIds.contains(id))
-            throw new Exception("L'id inserito non è corretto");
-
         Optional<Accessorio> a = accessorioRepository.findById(id);
-        return AccessorioMapper.toDTO(a.get());
+        if (a.isPresent()) {
+            return AccessorioMapper.toDTO(a.get());
+        } else {
+            throw new Exception("L'id inserito non è corretto");
+        }
     }
 
 
 
 //    chiamata post per creare un nuovo accessorio
     public void addAccessorioDTO(AccessorioDTO accessorioDTO) throws Exception {
-        List<Integer> accessoriIds = accessorioRepository.findAll().stream().map(Accessorio::getId).toList();
-        if (accessoriIds.contains(accessorioDTO.getId())) {
+        Optional<Accessorio> a = accessorioRepository.findById(accessorioDTO.getId());
+
+        if (a.isPresent())
             throw new Exception("L'id inserito non è valido");
-        } else if (accessorioDTO.getNome() == null) {
+
+        if (accessorioDTO.getNome() == null)
             throw new Exception("Il campo nome non può essere vuoto");
-        } else if (accessorioDTO.getNome().length() > 100) {
+
+        if (accessorioDTO.getNome().length() > 100)
             throw new Exception("La lunghezza del nome non può superare i 100 caratteri");
-        }
 
         List<Auto> autos = autoRepository.findAll();
         Accessorio newAccessorio = AccessorioMapper.toEntity(accessorioDTO, autos);
@@ -66,13 +68,15 @@ public class AccessorioService {
 
     //    chiamata put per update accessorio
     public void updateAccessorioDTO(Integer id, AccessorioDTO accessorioDTO) throws Exception {
-        List<Integer> accessoriIds = accessorioRepository.findAll().stream().map(Accessorio::getId).toList();
-        if (accessoriIds.contains(id)) {
-            if (accessorioDTO.getNome() == null) {
+        Optional<Accessorio> a = accessorioRepository.findById(id);
+
+        if (a.isPresent()) {
+            if (accessorioDTO.getNome() == null)
                 throw new Exception("Il campo nome non può essere vuoto");
-            } else if (accessorioDTO.getNome().length() > 100) {
+
+            if (accessorioDTO.getNome().length() > 100)
                 throw new Exception("La lunghezza del nome non può superare i 100 caratteri");
-            }
+
             List<Auto> autos = autoRepository.findAll();
             Accessorio newAccessorio = AccessorioMapper.toEntity(accessorioDTO, autos);
             newAccessorio.setId(id);
@@ -82,10 +86,17 @@ public class AccessorioService {
         }
     }
 
+//    chiamata patch per modificare qualche campo di un accessorio
+    public void patchAccessorio(Integer id, AccessorioDTO patchAccessorioDTO) throws Exception {
+
+
+    }
+
 //    chiamata per eliminare un accessorio
     public void deleteAccessorio(Integer id) throws Exception {
-        List<Integer> accessoriIds = accessorioRepository.findAll().stream().map(Accessorio::getId).toList();
-        if (accessoriIds.contains(id)) {
+        Optional<Accessorio> a = accessorioRepository.findById(id);
+
+        if (a.isPresent()) {
         accessorioRepository.deleteById(id);
         } else {
             throw new Exception("Accessorio selezionato non valido");

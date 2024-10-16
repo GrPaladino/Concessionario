@@ -10,12 +10,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/concessionari")
 public class ConcessionarioController {
 
     @Autowired
     private ConcessonarioService concessonarioService;
 
-    @GetMapping("/concessionari")
+    @GetMapping
     public ResponseEntity<?> getConcessionari() {
         if (concessonarioService.getConcessionariDTO() == null) {
             return new ResponseEntity<>("Nessun concessionario presente", HttpStatus.NOT_FOUND);
@@ -23,7 +24,7 @@ public class ConcessionarioController {
         return new ResponseEntity<>(concessonarioService.getConcessionariDTO(), HttpStatus.OK);
     }
 
-    @GetMapping("/concessionario/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> getConcessionarioDTO(@PathVariable Integer id) {
         try {
             return new ResponseEntity<>(concessonarioService.getConcessionarioDTO(id), HttpStatus.OK);
@@ -32,7 +33,7 @@ public class ConcessionarioController {
         }
     }
 
-    @PostMapping("/concessionari")
+    @PostMapping
     public ResponseEntity<?> addConcessionarioDTO(@RequestBody ConcessionarioDTO concessionarioDTO) {
         try {
             concessonarioService.addConcessionarioDTO(concessionarioDTO);
@@ -42,7 +43,7 @@ public class ConcessionarioController {
         }
     }
 
-    @PutMapping("/concessionario/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<?> updateConcessionarioDTO(@PathVariable Integer id, @RequestBody ConcessionarioDTO concessionarioDTO) {
         try {
             concessonarioService.updateConcessionarioDTO(id, concessionarioDTO);
@@ -52,7 +53,7 @@ public class ConcessionarioController {
         }
     }
 
-    @DeleteMapping("/concessionario/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteAccessorio(@PathVariable Integer id) {
         try {
             concessonarioService.deleteConcessionario(id);
@@ -65,7 +66,7 @@ public class ConcessionarioController {
 //                                  ENDPOINT AVANZATI
 
     //    Lista auto per concessionario: Restituisce tutte le auto di un determinato concessionario.
-    @GetMapping("concessionario/{id}/auto")
+    @GetMapping("/{id}/auto")
     public ResponseEntity<?> getAutoPerConcessionario(@PathVariable Integer id) {
         try {
             return new ResponseEntity<>(concessonarioService.getAutoPerConcessionario(id), HttpStatus.OK);

@@ -11,12 +11,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/motori")
 public class MotoreController {
 
     @Autowired
     private MotoreService motoreService;
 
-    @GetMapping("/motori")
+    @GetMapping
     public ResponseEntity<?> getMotoriDTO() {
         if (motoreService.getMotoriDTO() == null) {
             return new ResponseEntity<>("Nessun motore presente", HttpStatus.NOT_FOUND);
@@ -24,7 +25,7 @@ public class MotoreController {
         return new ResponseEntity<>(motoreService.getMotoriDTO(), HttpStatus.OK);
     }
 
-    @GetMapping("/motore/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> getMotoreDTO(@PathVariable Integer id) {
         try {
             return new ResponseEntity<>(motoreService.getMotoreDTO(id), HttpStatus.OK);
@@ -34,7 +35,7 @@ public class MotoreController {
         }
     }
 
-    @PostMapping("/motori")
+    @PostMapping
     public ResponseEntity<?> addMotoreDTO(@RequestBody MotoreDTO motoreDTO) {
         try {
             motoreService.addMotoreDTO(motoreDTO);
@@ -44,7 +45,7 @@ public class MotoreController {
         }
     }
 
-    @PutMapping("/motore/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<?> updateMotoreDTO(@PathVariable Integer id, @RequestBody MotoreDTO motoreDTO) {
         try {
             motoreService.updateMotoreDTO(id, motoreDTO);
@@ -54,7 +55,7 @@ public class MotoreController {
         }
     }
 
-    @DeleteMapping("/motore/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteMotore(@PathVariable Integer id) {
         try {
             motoreService.deleteMotore(id);

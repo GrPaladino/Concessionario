@@ -39,34 +39,39 @@ public class ConcessonarioService {
 
 //    chiamata per un singolo concessionario
     public ConcessionarioDTO getConcessionarioDTO(Integer id) throws Exception {
-
-        List<Integer> concessionariIds = concessionarioRepository.findAll().stream().map(Concessionario::getId).toList();
-        if (!concessionariIds.contains(id))
+        Optional<Concessionario> c = concessionarioRepository.findById(id);
+        if (!c.isPresent())
             throw new Exception("L'id inserito non é corretto");
 
-        Optional<Concessionario> c = concessionarioRepository.findById(id);
         return ConcessionarioMapper.toDTO(c.get());
     }
 
 //    chiamata post per creare un nuovo concessionario
     public void addConcessionarioDTO(ConcessionarioDTO concessionarioDTO) throws Exception {
-        List<Integer> concessionariIds = concessionarioRepository.findAll().stream().map(Concessionario::getId).toList();
-        List<String> pIvas = concessionarioRepository.findAll().stream().map(Concessionario::getP_iva).toList();
-        if (concessionariIds.contains(concessionarioDTO.getId())) {
+        Optional<Concessionario> c = concessionarioRepository.findById(concessionarioDTO.getId());
+        String pIva = c.get().getP_iva();
+
+        if (c.isPresent())
             throw new Exception("L'id inserito non è valido");
-        } else if (concessionarioDTO.getNome() == null) {
+
+        if (concessionarioDTO.getNome() == null)
             throw new Exception("Il campo nome non può essere vuoto");
-        } else if (concessionarioDTO.getNome().length() > 100) {
+
+        if (concessionarioDTO.getNome().length() > 100)
             throw new Exception("La lunghezza del campo nome non può superare 100 caratteri");
-        } else if (concessionarioDTO.getIndirizzo().length() > 200) {
+
+        if (concessionarioDTO.getIndirizzo().length() > 200)
             throw new Exception("La lunghezza del campo indirizzo non può superare 200 caratteri");
-        } else if (concessionarioDTO.getP_iva() == null) {
+
+        if (concessionarioDTO.getP_iva() == null)
             throw new Exception("Il campo p_iva non può essere vuoto");
-        } else if (concessionarioDTO.getP_iva().length() > 11) {
+
+        if (concessionarioDTO.getP_iva().length() > 11)
             throw new Exception("La lunghezza del campo p_iva non può superare 11 caratteri");
-        }else if (pIvas.contains(concessionarioDTO.getP_iva())) {
+
+        if (pIva.equalsIgnoreCase(concessionarioDTO.getP_iva()))
             throw new Exception("Il campo p_iva è già esistente");
-        }
+
         List<Auto> autos = autoRepository.findAll();
         Concessionario newConcessionario = ConcessionarioMapper.toEntity(concessionarioDTO, autos);
         concessionarioRepository.save(newConcessionario);
@@ -74,22 +79,28 @@ public class ConcessonarioService {
 
 //    chiamata put per update concessionario
     public void updateConcessionarioDTO(Integer id, ConcessionarioDTO concessionarioDTO) throws Exception {
-        List<Integer> concessionariIds = concessionarioRepository.findAll().stream().map(Concessionario::getId).toList();
-        List<String> pIvas = concessionarioRepository.findAll().stream().map(Concessionario::getP_iva).toList();
-        if (concessionariIds.contains(id)) {
-            if (concessionarioDTO.getNome() == null) {
+        Optional<Concessionario> c = concessionarioRepository.findById(concessionarioDTO.getId());
+        String pIva = c.get().getP_iva();
+
+        if (c.isPresent()) {
+            if (concessionarioDTO.getNome() == null)
                 throw new Exception("Il campo nome non può essere vuoto");
-            } else if (concessionarioDTO.getNome().length() > 100) {
+
+            if (concessionarioDTO.getNome().length() > 100)
                 throw new Exception("La lunghezza del campo nome non può superare 100 caratteri");
-            } else if (concessionarioDTO.getIndirizzo().length() > 200) {
+
+            if (concessionarioDTO.getIndirizzo().length() > 200)
                 throw new Exception("La lunghezza del campo indirizzo non può superare 200 caratteri");
-            } else if (concessionarioDTO.getP_iva() == null) {
+
+            if (concessionarioDTO.getP_iva() == null)
                 throw new Exception("Il campo p_iva non può essere vuoto");
-            } else if (concessionarioDTO.getP_iva().length() > 11) {
+
+            if (concessionarioDTO.getP_iva().length() > 11)
                 throw new Exception("La lunghezza del campo p_iva non può superare 11 caratteri");
-            }else if (pIvas.contains(concessionarioDTO.getP_iva())) {
+
+            if (pIva.equalsIgnoreCase(concessionarioDTO.getP_iva()))
                 throw new Exception("Il campo p_iva è già esistente");
-            }
+
             List<Auto> autos = autoRepository.findAll();
             Concessionario newConcessionario = ConcessionarioMapper.toEntity(concessionarioDTO, autos);
             newConcessionario.setId(id);
@@ -102,8 +113,8 @@ public class ConcessonarioService {
 
 //    chiamata per eliminare un concessionario
     public void deleteConcessionario(Integer id) throws Exception {
-        List<Integer> concessionariIds = concessionarioRepository.findAll().stream().map(Concessionario::getId).toList();
-        if (concessionariIds.contains(id)) {
+        Optional<Concessionario> c = concessionarioRepository.findById(id);
+        if (c.isPresent()) {
             concessionarioRepository.deleteById(id);
         } else {
             throw new Exception("Concessionario selezionato non valido");
@@ -113,13 +124,13 @@ public class ConcessonarioService {
 
 //    METODO PER RITORNARE LA LISTA DI AUTO PRESENTI NEL CONCESSONARIO
     public List<AutoDTO> getAutoPerConcessionario(Integer id) throws Exception {
-        List<Integer> concessionariIds = concessionarioRepository.findAll().stream().map(Concessionario::getId).toList();
         Optional<Concessionario> c = concessionarioRepository.findById(id);
-        if (!concessionariIds.contains(id)) {
+        if (!c.isPresent())
             throw new Exception("Concessionario selezionato non valido");
-        } else if (c.get().getAutos().isEmpty()) {
+
+        if (c.get().getAutos().isEmpty())
             throw new Exception("Il concessionario selezionato non ha nessuna auto");
-        }
+
         List<Auto> autos = autoRepository.findAll();
         List<AutoDTO> newAutoList = new ArrayList<>();
         for (Auto a : autos) {

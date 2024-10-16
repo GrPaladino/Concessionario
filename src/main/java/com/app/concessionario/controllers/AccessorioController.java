@@ -10,12 +10,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/accessori")
 public class AccessorioController {
 
     @Autowired
     private AccessorioService accessorioService;
 
-    @GetMapping("/accessori")
+    @GetMapping
     public ResponseEntity<?> getAccessori() {
         if (accessorioService.getAccessoriDTO() == null) {
             return new ResponseEntity<>("Nessun accessorio presente", HttpStatus.NOT_FOUND);
@@ -23,7 +24,7 @@ public class AccessorioController {
         return new ResponseEntity<>(accessorioService.getAccessoriDTO(), HttpStatus.OK);
     }
 
-    @GetMapping("/accessorio/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> getAccessorio(@PathVariable Integer id) {
         try {
             return new ResponseEntity<>(accessorioService.getAccessorioDto(id), HttpStatus.OK);
@@ -33,17 +34,17 @@ public class AccessorioController {
         }
     }
 
-    @PostMapping("/accessori")
+    @PostMapping
     public ResponseEntity<?> addAccessorioDTO(@RequestBody AccessorioDTO accessorioDTO) {
         try {
             accessorioService.addAccessorioDTO(accessorioDTO);
-            return new ResponseEntity<>("Nuovo accessorio inserito", HttpStatus.OK);
+            return new ResponseEntity<>("Nuovo accessorio inserito", HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         }
     }
 
-    @PutMapping("/accessorio/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<?> updateAccessorio(@PathVariable Integer id, @RequestBody AccessorioDTO accessorioDTO) {
         try {
             accessorioService.updateAccessorioDTO(id, accessorioDTO);
@@ -54,7 +55,7 @@ public class AccessorioController {
         }
     }
 
-    @DeleteMapping("/accessorio/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteAccessorio(@PathVariable Integer id) {
         try {
             accessorioService.deleteAccessorio(id);
