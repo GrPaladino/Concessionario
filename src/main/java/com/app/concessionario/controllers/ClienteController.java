@@ -54,6 +54,16 @@ public class ClienteController {
         }
     }
 
+    @PatchMapping("/{id}")
+    public ResponseEntity<?> patchClienteDTO(@PathVariable Integer id, @RequestBody ClienteDTO patchClienteDTO) {
+        try {
+            clienteService.patchClienteDTO(id, patchClienteDTO);
+            return new ResponseEntity<>("Cliente modificato con successo", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteCliente(@PathVariable Integer id) {
         try {

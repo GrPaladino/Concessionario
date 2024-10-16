@@ -109,6 +109,61 @@ public class ClienteService {
         }
     }
 
+//    chiamata per patch cliente
+    public void patchClienteDTO(Integer id, ClienteDTO patchClienteDTO) throws Exception {
+        Optional<Cliente> c = clienteRepository.findById(id);
+
+        if (c.isPresent()) {
+            String mail = c.get().getEmail();
+
+            if (patchClienteDTO.getEmail() != null) {
+                if (patchClienteDTO.getEmail().equalsIgnoreCase(mail))
+                    throw new Exception("La mail inserita è già presente");
+
+                if (patchClienteDTO.getEmail().length() > 100)
+                    throw new Exception("Il campo email non può superare i 100 caratteri");
+
+                c.get().setEmail(patchClienteDTO.getEmail());
+            }
+
+            if (patchClienteDTO.getNome() != null) {
+                if (patchClienteDTO.getNome().length() > 30)
+                    throw new Exception("Il campo nome non può superare i 30 caratteri");
+
+                c.get().setNome(patchClienteDTO.getNome());
+            }
+
+            if (patchClienteDTO.getCognome() != null) {
+                if (patchClienteDTO.getCognome().length() > 30)
+                    throw new Exception("Il campo cognome non può superare i 30 caratteri");
+
+                c.get().setCognome(patchClienteDTO.getCognome());
+            }
+
+
+            if (patchClienteDTO.getTelefono() != null) {
+                if (patchClienteDTO.getTelefono().length() > 100)
+                    throw new Exception("Il campo telefono non può superare i 30 caratteri");
+
+                c.get().setTelefono(patchClienteDTO.getTelefono());
+            }
+
+            if (patchClienteDTO.getConcessionarioId() != null) {
+                List<Concessionario> concessionari = concessionarioRepository.findAll();
+
+                for (Concessionario cli : concessionari) {
+                    if (cli.getId().equals(patchClienteDTO.getConcessionarioId()))
+                        c.get().setConcessionario(cli);
+                }
+            }
+
+            c.get().setId(id);
+            clienteRepository.save(c.get());
+        } else {
+            throw new Exception("L'id inserito non è valido");
+        }
+    }
+
 //    chiamata per eliminare un cliente
         public void deleteCliente (Integer id) throws Exception {
             Optional<Cliente> c = clienteRepository.findById(id);

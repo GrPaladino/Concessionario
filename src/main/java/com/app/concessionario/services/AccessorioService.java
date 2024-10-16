@@ -87,8 +87,20 @@ public class AccessorioService {
     }
 
 //    chiamata patch per modificare qualche campo di un accessorio
-    public void patchAccessorio(Integer id, AccessorioDTO patchAccessorioDTO) throws Exception {
+    public void patchAccessorioDTO(Integer id, AccessorioDTO patchAccessorioDTO) throws Exception {
+        Optional<Accessorio> a = accessorioRepository.findById(id);
 
+        if (a.isPresent()) {
+            if (patchAccessorioDTO.getNome() != null) {
+                if (patchAccessorioDTO.getNome().length() > 100)
+                    throw new Exception("La lunghezza del nome non può superare i 100 caratteri");
+
+                a.get().setNome(patchAccessorioDTO.getNome());
+                accessorioRepository.save(a.get());
+            }
+        } else {
+            throw new Exception("L'id inserito non è valido");
+        }
 
     }
 

@@ -4,6 +4,8 @@ import com.app.concessionario.dto.AutoDTO;
 import com.app.concessionario.entity.*;
 import com.app.concessionario.mapper.AutoMapper;
 import com.app.concessionario.repositories.*;
+import com.app.concessionario.utils.enumerate.Carrozzeria;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,7 +46,7 @@ public class AutoService {
     public AutoDTO getAutoDTO(Integer id) throws Exception {
         Optional<Auto> a = autoRepository.findById(id);
 
-        if (!a.isPresent()) {
+        if (a.isPresent()) {
             return AutoMapper.toDTO(a.get());
         } else {
             throw new Exception("L'id inserito non é corretto");
@@ -142,6 +144,58 @@ public class AutoService {
             } else {
                 throw new Exception("I campi carrozzeria disponibili sono: 'suv', 'berlina', 'stationwagon', 'crossover', 'utilitaria'");
             }
+
+        } else {
+            throw new Exception("L'id inserito non è valido");
+        }
+
+    }
+//    chiamata per patch un auto
+    public void patchAutoDTO(Integer id, AutoDTO patchAutoDTO) throws Exception {
+        Optional<Auto> a = autoRepository.findById(id);
+
+        if (a.isPresent()) {
+
+            if (patchAutoDTO.getBrand() != null) {
+                if (patchAutoDTO.getBrand().length() > 50)
+                    throw new Exception("La lunghezza del campo brand non può superare i 50 caratteri");
+
+                a.get().setBrand(patchAutoDTO.getBrand());
+            }
+
+            if (patchAutoDTO.getModello() != null) {
+                if (patchAutoDTO.getModello().length() > 50)
+                    throw new Exception("La lunghezza del campo modello non può superare i 50 caratteri");
+
+                a.get().setModello(patchAutoDTO.getModello());
+            }
+
+            if (patchAutoDTO.getColore() != null) {
+                if (patchAutoDTO.getColore().length() > 20)
+                    throw new Exception("La lunghezza del campo colore non può superare i 20 caratteri");
+                a.get().setColore(patchAutoDTO.getColore());
+            }
+
+            if (patchAutoDTO.getStato() != null) {
+                if (patchAutoDTO.getStato().length() > 50)
+                    throw new Exception("La lunghezza del campo stato non può superare i 20 caratteri");
+                a.get().setStato(patchAutoDTO.getStato());
+            }
+
+            if (patchAutoDTO.getCarrozzeria() != null) {
+                if (patchAutoDTO.getCarrozzeria().equalsIgnoreCase("suv") ||
+                        patchAutoDTO.getCarrozzeria().equalsIgnoreCase("berlina") ||
+                        patchAutoDTO.getCarrozzeria().equalsIgnoreCase("crossover") ||
+                        patchAutoDTO.getCarrozzeria().equalsIgnoreCase("stationwagon") ||
+                        patchAutoDTO.getCarrozzeria().equalsIgnoreCase("utilitaria")) {
+
+
+                    a.get().setCarrozzeria(Carrozzeria.valueOf(patchAutoDTO.getCarrozzeria().toUpperCase()));
+                } else {
+                    throw new Exception("I campi carrozzeria disponibili sono: 'suv', 'berlina', 'stationwagon', 'crossover', 'utilitaria'");
+                }
+            }
+            autoRepository.save(a.get());
 
         } else {
             throw new Exception("L'id inserito non è valido");

@@ -55,6 +55,17 @@ public class AccessorioController {
         }
     }
 
+    @PatchMapping("/{id}")
+    public ResponseEntity<?> patchAccessorio(@PathVariable Integer id, @RequestBody AccessorioDTO accessorioDTO) {
+        try {
+            accessorioService.patchAccessorioDTO(id, accessorioDTO);
+            return new ResponseEntity<>("Accessorio modificato con successo", HttpStatus.OK);
+        }
+        catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteAccessorio(@PathVariable Integer id) {
         try {

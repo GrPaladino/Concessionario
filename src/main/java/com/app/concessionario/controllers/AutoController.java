@@ -53,6 +53,16 @@ public class AutoController {
         }
     }
 
+    @PatchMapping("/{id}")
+    public ResponseEntity<?> patchAuto(@PathVariable Integer id, @RequestBody AutoDTO patchAutoDTO) {
+        try {
+            autoService.patchAutoDTO(id, patchAutoDTO);
+            return new ResponseEntity<>("Operazione effettuata con successo", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteAuto(@PathVariable Integer id) {
         try {
