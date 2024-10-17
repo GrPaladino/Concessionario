@@ -98,6 +98,31 @@ public class MotoreService {
 
     }
 
+//    chiamata patch
+    public void patchMotoreDTO(Integer id, MotoreDTO patchMotoreDTO) throws Exception {
+        Optional<Motore> m = motoreRepository.findById(id);
+
+        if (m.isPresent()) {
+
+            if (patchMotoreDTO.getPotenza() != null)
+                m.get().setPotenza(patchMotoreDTO.getPotenza());
+
+            if (patchMotoreDTO.getCilindrata() != null)
+                m.get().setCilindrata(patchMotoreDTO.getCilindrata());
+
+            if (patchMotoreDTO.getCarburante() != null) {
+                if (patchMotoreDTO.getCarburante().length() > 20)
+                    throw new Exception("Il campo carburante non può superare i 20 caratteri");
+
+                m.get().setCarburante(patchMotoreDTO.getCarburante());
+            }
+
+            motoreRepository.save(m.get());
+        } else {
+            throw new Exception("L'id inserito non é corretto");
+        }
+    }
+
 //    chiamata per eliminare un motore
     public void deleteMotore(Integer id) throws Exception {
         Optional<Motore> m = motoreRepository.findById(id);

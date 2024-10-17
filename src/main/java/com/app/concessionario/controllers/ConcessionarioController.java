@@ -53,6 +53,16 @@ public class ConcessionarioController {
         }
     }
 
+    @PatchMapping("/{id}")
+    public ResponseEntity<?> patchConcessionarioDTO(@PathVariable Integer id, @RequestBody ConcessionarioDTO patchConcessionarioDTO) {
+        try {
+            concessonarioService.patchConcessionarioDTO(id, patchConcessionarioDTO);
+            return new ResponseEntity<>("Concessionario modificato con successo", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteAccessorio(@PathVariable Integer id) {
         try {

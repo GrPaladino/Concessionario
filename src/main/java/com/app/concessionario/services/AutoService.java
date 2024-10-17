@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -195,6 +196,48 @@ public class AutoService {
                     throw new Exception("I campi carrozzeria disponibili sono: 'suv', 'berlina', 'stationwagon', 'crossover', 'utilitaria'");
                 }
             }
+
+            if (patchAutoDTO.getIsVentuta() != null)
+                a.get().setIsVentuta(patchAutoDTO.getIsVentuta());
+
+            if (patchAutoDTO.getConcessionarioId() != null) {
+                List<Concessionario> concessionari = concessionarioRepository.findAll();
+                for (Concessionario c : concessionari) {
+                    if (c.getId().equals(patchAutoDTO.getConcessionarioId()))
+                        a.get().setConcessionario(c);
+
+                }
+            }
+
+            if (patchAutoDTO.getClienteId() != null) {
+                List<Cliente> clienti = clienteRepository.findAll();
+                for (Cliente c : clienti) {
+                    if (c.getId().equals(patchAutoDTO.getClienteId())) {
+                        a.get().setCliente(c);
+                    }
+                }
+            }
+
+            if (patchAutoDTO.getAccessoriIds() != null) {
+                List<Accessorio> accessori = accessorioRepository.findAll();
+                a.get().setAccessori(patchAutoDTO.getAccessoriIds().stream()
+                        .map(accessoriId -> accessori.stream()
+                                .filter(accessorio -> accessorio.getId().equals(accessoriId))
+                                .findFirst()
+                                .orElseThrow(() -> new IllegalArgumentException("Accessorio con ID " + accessoriId + " non trovato"))
+                        ).collect(Collectors.toList()));
+            }
+
+            if (patchAutoDTO.getMotoriIds() != null) {
+                List<Motore> motori = motoreRepository.findAll();
+                a.get().setMotori(patchAutoDTO.getMotoriIds().stream()
+                        .map(motoriId -> motori.stream()
+                                .filter(motore -> motore.getId().equals(motoriId))
+                                .findFirst()
+                                .orElseThrow(() -> new IllegalArgumentException("Motore con ID " + motoriId + " non trovato"))
+                        ).collect(Collectors.toList()));
+            }
+
             autoRepository.save(a.get());
 
         } else {

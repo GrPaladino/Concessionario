@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ConcessonarioService {
@@ -79,7 +80,7 @@ public class ConcessonarioService {
 
 //    chiamata put per update concessionario
     public void updateConcessionarioDTO(Integer id, ConcessionarioDTO concessionarioDTO) throws Exception {
-        Optional<Concessionario> c = concessionarioRepository.findById(concessionarioDTO.getId());
+        Optional<Concessionario> c = concessionarioRepository.findById(id);
         String pIva = c.get().getP_iva();
 
         if (c.isPresent()) {
@@ -110,6 +111,54 @@ public class ConcessonarioService {
         }
 
     }
+
+//    chiamata patch
+public void patchConcessionarioDTO(Integer id, ConcessionarioDTO patchConcessionarioDTO) throws Exception {
+    Optional<Concessionario> c = concessionarioRepository.findById(id);
+
+    if (c.isPresent()) {
+        String pIva = c.get().getP_iva();
+
+        if (patchConcessionarioDTO.getNome() != null) {
+            if (patchConcessionarioDTO.getNome().length() > 100)
+                throw new Exception("La lunghezza del campo nome non può superare 100 caratteri");
+
+            c.get().setNome(patchConcessionarioDTO.getNome());
+        }
+
+        if (patchConcessionarioDTO.getIndirizzo() != null) {
+            if (patchConcessionarioDTO.getIndirizzo().length() > 200)
+                throw new Exception("La lunghezza del campo indirizzo non può superare 200 caratteri");
+
+            c.get().setIndirizzo(patchConcessionarioDTO.getIndirizzo());
+        }
+
+        if (patchConcessionarioDTO.getP_iva() != null) {
+            if (pIva.equalsIgnoreCase(patchConcessionarioDTO.getP_iva()))
+                throw new Exception("Il campo p_iva è già esistente");
+
+            if (patchConcessionarioDTO.getP_iva().length() > 11)
+                throw new Exception("La lunghezza del campo p_iva non può superare 11 caratteri");
+
+            c.get().setP_iva(patchConcessionarioDTO.getP_iva());
+        }
+
+//        if (patchConcessionarioDTO.getAutoIds() != null) {
+//            List<Auto> autos = autoRepository.findAll();
+//
+//            c.get().setAutos(patchConcessionarioDTO.getAutoIds().stream()
+//                    .map(autoId -> autos.stream()
+//                            .filter(auto -> auto.getId().equals(autoId))
+//                            .findFirst().orElseThrow(() -> new IllegalArgumentException("Auto con ID " + autoId + " non trovata"))
+//                    ).collect(Collectors.toList())
+//            );
+//        }
+        concessionarioRepository.save(c.get());
+    } else {
+        throw new Exception("L'id inserito non é corretto");
+    }
+
+}
 
 //    chiamata per eliminare un concessionario
     public void deleteConcessionario(Integer id) throws Exception {

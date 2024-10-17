@@ -55,6 +55,16 @@ public class MotoreController {
         }
     }
 
+    @PatchMapping("/{id}")
+    public ResponseEntity<?> patchMotoreDTO(@PathVariable Integer id, @RequestBody MotoreDTO patchMotoreDTO) {
+        try {
+            motoreService.patchMotoreDTO(id, patchMotoreDTO);
+            return new ResponseEntity<>("Motore modificato con successo", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteMotore(@PathVariable Integer id) {
         try {
