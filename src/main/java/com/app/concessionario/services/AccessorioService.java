@@ -26,19 +26,24 @@ public class AccessorioService {
 //                              CHIAMATE DTO
 
 //    chiamata get di tutti gli accessori
-    public List<AccessorioDTO> getAccessoriDTO() {
+    public List<AccessorioDTO> getAccessoriDTO() throws Exception {
         List<AccessorioDTO> accessoriDTO = new ArrayList<>();
         List<Accessorio> accessori = accessorioRepository.findAll();
         for (Accessorio a : accessori) {
             AccessorioDTO accessorioDTO = AccessorioMapper.toDTO(a);
             accessoriDTO.add(accessorioDTO);
         }
+        if (accessoriDTO.isEmpty())
+            throw new Exception("Nessun accessorio presente");
+
         return accessoriDTO;
     }
 
 //    chiamata get per un singolo accessorio
     public AccessorioDTO getAccessorioDto(Integer id) throws Exception {
         Optional<Accessorio> a = accessorioRepository.findById(id);
+//        return a.map(AccessorioMapper::toDTO).orElse(null);
+
         if (a.isPresent()) {
             return AccessorioMapper.toDTO(a.get());
         } else {
