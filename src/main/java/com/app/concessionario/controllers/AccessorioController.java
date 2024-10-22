@@ -1,7 +1,6 @@
 package com.app.concessionario.controllers;
 
 import com.app.concessionario.dto.AccessorioDTO;
-import com.app.concessionario.repositories.AccessorioRepository;
 import com.app.concessionario.services.AccessorioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -39,10 +38,6 @@ public class AccessorioController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
-//        if (accessorioService.getAccessoriDTO() == null) {
-//            return new ResponseEntity<>("Nessun accessorio presente", HttpStatus.NOT_FOUND);
-//        }
-//        return ResponseEntity.ok(accessorioService.getAccessoriDTO());
     }
 
 
@@ -58,64 +53,55 @@ public class AccessorioController {
         catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
-
-
-//        try {
-//            return ResponseEntity.ok(accessorioService.getAccessorioDto(id));
-//        } catch (Exception e) {
-//            return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
-//        }
     }
 
-//    @GetMapping("/{id}")
-//    public ResponseEntity<?> getAccessorio(@PathVariable Integer id) {
-//        try {
-//            return new ResponseEntity<>(accessorioService.getAccessorioDto(id), HttpStatus.OK);
-//        }
-//        catch(Exception e) {
-//            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-//        }
-//    }
-
     @PostMapping
+    @Operation(summary = "Crea accessorio", description = "Crea un nuovo accessorio")
+    @ApiResponse(responseCode = "201", description = "Accessorio creato")
     public ResponseEntity<?> addAccessorioDTO(@RequestBody AccessorioDTO accessorioDTO) {
         try {
             accessorioService.addAccessorioDTO(accessorioDTO);
             return  ResponseEntity.status(HttpStatus.CREATED).body(accessorioDTO);
         } catch (Exception e) {
-            return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            return  ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
 
     @PutMapping("/{id}")
+    @Operation(summary = "Modifica accessorio", description = "Modifica un accessorio")
+    @ApiResponse(responseCode = "200", description = "Accessorio modificato")
     public ResponseEntity<?> updateAccessorio(@PathVariable Integer id, @RequestBody AccessorioDTO accessorioDTO) {
         try {
             accessorioService.updateAccessorioDTO(id, accessorioDTO);
-            return new ResponseEntity<>("Accessorio modificato con successo", HttpStatus.OK);
+            return ResponseEntity.ok().body(accessorioDTO);
         }
         catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @PatchMapping("/{id}")
+    @Operation(summary = "Modifica accessorio", description = "Modifica un accessorio")
+    @ApiResponse(responseCode = "200", description = "Accessorio modificato")
     public ResponseEntity<?> patchAccessorio(@PathVariable Integer id, @RequestBody AccessorioDTO accessorioDTO) {
         try {
             accessorioService.patchAccessorioDTO(id, accessorioDTO);
-            return new ResponseEntity<>("Accessorio modificato con successo", HttpStatus.OK);
+            return ResponseEntity.ok().body(accessorioDTO);
         }
         catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Cancella accessorio", description = "Cancella un accessorio")
+    @ApiResponse(responseCode = "200", description = "Accessorio cancellato")
     public ResponseEntity<?> deleteAccessorio(@PathVariable Integer id) {
         try {
             accessorioService.deleteAccessorio(id);
-            return  new ResponseEntity<>("Operazione effettuata con successo", HttpStatus.OK);
+            return ResponseEntity.ok().body("Operazione effettuata con successo");
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
 

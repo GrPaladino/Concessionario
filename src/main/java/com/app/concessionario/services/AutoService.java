@@ -33,13 +33,16 @@ public class AutoService {
 //                                CHIAMATE DTO
 //
 //    chiamata get di tutti le auto
-    public List<AutoDTO> getAutosDTO() {
+    public List<AutoDTO> getAutosDTO() throws Exception {
         List<AutoDTO> autosDTO = new ArrayList<>();
         List<Auto> auto = autoRepository.findAll();
         for (Auto a : auto) {
             AutoDTO autoDTO = AutoMapper.toDTO(a);
             autosDTO.add(autoDTO);
         }
+        if (autosDTO.isEmpty())
+            throw new Exception("Nessuna auto presente");
+
         return autosDTO;
     }
 
