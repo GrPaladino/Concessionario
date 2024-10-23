@@ -26,7 +26,7 @@ public class MotoreService {
 //                              CHIAMATE DTO
 
 //    chiamata get per tutti i motori
-    public List<MotoreDTO> getMotoriDTO() {
+    public List<MotoreDTO> getMotoriDTO() throws Exception {
         List<MotoreDTO> motoriDTO = new ArrayList<>();
         List<Motore> motori = motoreRepository.findAll();
 
@@ -34,6 +34,9 @@ public class MotoreService {
             MotoreDTO motoreDTO = MotoreMapper.toDTO(m);
             motoriDTO.add(motoreDTO);
         }
+        if (motoriDTO.isEmpty())
+            throw new Exception("Nessun motore presente");
+
         return motoriDTO;
     }
 

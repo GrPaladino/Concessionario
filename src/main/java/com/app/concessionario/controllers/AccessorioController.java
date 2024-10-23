@@ -14,7 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @Tag(name = "accessori", description = "Accessori API")
@@ -83,10 +82,10 @@ public class AccessorioController {
     @PatchMapping("/{id}")
     @Operation(summary = "Modifica accessorio", description = "Modifica un accessorio")
     @ApiResponse(responseCode = "200", description = "Accessorio modificato")
-    public ResponseEntity<?> patchAccessorio(@PathVariable Integer id, @RequestBody AccessorioDTO accessorioDTO) {
+    public ResponseEntity<?> patchAccessorio(@PathVariable Integer id, @RequestBody AccessorioDTO patchAccessorioDTO) {
         try {
-            accessorioService.patchAccessorioDTO(id, accessorioDTO);
-            return ResponseEntity.ok().body(accessorioDTO);
+            accessorioService.patchAccessorioDTO(id, patchAccessorioDTO);
+            return ResponseEntity.ok().body(accessorioService.getAccessorioDto(id));
         }
         catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());

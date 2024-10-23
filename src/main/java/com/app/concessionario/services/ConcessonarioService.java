@@ -28,13 +28,16 @@ public class ConcessonarioService {
 //                              CHIAMATE DTO
 
     //    chiamata get di tutti gli accessori
-    public List<ConcessionarioDTO> getConcessionariDTO() {
+    public List<ConcessionarioDTO> getConcessionariDTO() throws Exception {
         List<ConcessionarioDTO> concessionariDTO = new ArrayList<>();
         List<Concessionario> concessionari = concessionarioRepository.findAll();
         for (Concessionario c : concessionari) {
             ConcessionarioDTO concessionarioDTO = ConcessionarioMapper.toDTO(c);
             concessionariDTO.add(concessionarioDTO);
         }
+        if (concessionariDTO.isEmpty())
+            throw new Exception("Nessun concessionario presente");
+
         return concessionariDTO;
     }
 

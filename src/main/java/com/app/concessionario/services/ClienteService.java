@@ -25,13 +25,15 @@ public class ClienteService {
 //                                  CHIAMATE DTO
 
     //    chiamata get per tutti i clienti
-    public List<ClienteDTO> getClientiDTO() {
+    public List<ClienteDTO> getClientiDTO() throws Exception {
         List<ClienteDTO> clientiDTO = new ArrayList<>();
         List<Cliente> clienti = clienteRepository.findAll();
         for (Cliente c : clienti) {
             ClienteDTO clienteDTO = ClienteMapper.toDTO(c);
             clientiDTO.add(clienteDTO);
         }
+        if (clientiDTO.isEmpty())
+            throw new Exception("Nessun cliente presente");
         return clientiDTO;
     }
 

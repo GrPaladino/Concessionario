@@ -14,7 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @Tag(name = "auto", description = "Auto API")
@@ -83,7 +82,7 @@ public class AutoController {
     public ResponseEntity<?> patchAuto(@PathVariable Integer id, @RequestBody AutoDTO patchAutoDTO) {
         try {
             autoService.patchAutoDTO(id, patchAutoDTO);
-            return ResponseEntity.ok().body(patchAutoDTO);
+            return ResponseEntity.ok().body(autoService.getAutoDTO(id));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

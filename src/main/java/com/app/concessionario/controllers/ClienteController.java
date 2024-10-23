@@ -1,76 +1,101 @@
 package com.app.concessionario.controllers;
 
 import com.app.concessionario.dto.ClienteDTO;
-import com.app.concessionario.entity.Cliente;
 import com.app.concessionario.services.ClienteService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/api/clienti")
+@Tag(name = "clienti", description = "Clienti API")
+@RequestMapping(value = "/api/clienti", produces = MediaType.APPLICATION_JSON_VALUE)
+@ApiResponses(value = {
+        @ApiResponse(responseCode = "401", description = "Unauthorized"),
+        @ApiResponse(responseCode = "404", description = "Cliente non trovato"),
+        @ApiResponse(responseCode = "500", description = "Internal server error")
+})
 public class ClienteController {
 
     @Autowired
     private ClienteService clienteService;
 
     @GetMapping
+    @Operation(summary = "Cerca tutti i clienti", description = "Recupera tutti i clienti")
+    @ApiResponse(responseCode = "200", description = "Clienti trovati")
     public ResponseEntity<?> getClientiDTO() {
-        if (clienteService.getClientiDTO() == null) {
-            return new ResponseEntity<>("Nessun cliente presente", HttpStatus.NOT_FOUND);
+        try {
+            return ResponseEntity.ok(clienteService.getClientiDTO());
         }
-        return new ResponseEntity<>(clienteService.getClientiDTO(), HttpStatus.OK);
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Cerca cliente con ID", description = "Recupera il cliente con l'ID.")
+    @ApiResponse(responseCode = "200", description = "Cliente trovato",
+            content = @Content(schema = @Schema(implementation = ClienteDTO.class)))
     public ResponseEntity<?> getClienteDTO(@PathVariable Integer id) {
         try {
-            return new ResponseEntity<>(clienteService.getClienteDTO(id), HttpStatus.OK);
+            return ResponseEntity.ok(clienteService.getClienteDTO(id));
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
 
     @PostMapping
+    @Operation(summary = "Crea cliente", description = "Crea un nuovo cliente")
+    @ApiResponse(responseCode = "201", description = "Cliente creato")
     public ResponseEntity<?> addClientiDTO(@RequestBody ClienteDTO clienteDTO) {
         try {
             clienteService.addClienteDTO(clienteDTO);
-            return new ResponseEntity<>("Nuova auto inserita",HttpStatus.OK);
+            return ResponseEntity.status(HttpStatus.CREATED).body(clienteDTO);
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return  ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
 
     @PutMapping("/{id}")
+    @Operation(summary = "Modifica cliente", description = "Modifica un cliente")
+    @ApiResponse(responseCode = "200", description = "Cliente modificato")
     public ResponseEntity<?> updateClienteDTO(@PathVariable Integer id, @RequestBody ClienteDTO clienteDTO) {
         try {
             clienteService.updateClienteDTO(id, clienteDTO);
-            return new ResponseEntity<>("Cliente modificato con successo", HttpStatus.OK);
+            return ResponseEntity.ok().body(clienteDTO);
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @PatchMapping("/{id}")
+    @Operation(summary = "Modifica cliente", description = "Modifica un cliente")
+    @ApiResponse(responseCode = "200", description = "Cliente modificato")
     public ResponseEntity<?> patchClienteDTO(@PathVariable Integer id, @RequestBody ClienteDTO patchClienteDTO) {
         try {
             clienteService.patchClienteDTO(id, patchClienteDTO);
-            return new ResponseEntity<>("Cliente modificato con successo", HttpStatus.OK);
+            return ResponseEntity.ok().body(clienteService.getClienteDTO(id));
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Cancella cliente", description = "Cancella un cliente")
+    @ApiResponse(responseCode = "200", description = "Cliente cancellato")
     public ResponseEntity<?> deleteCliente(@PathVariable Integer id) {
         try {
             clienteService.deleteCliente(id);
-            return new ResponseEntity<>("Operazione effettuata con successo", HttpStatus.OK);
+            return ResponseEntity.ok().body("Operazione effettuata con successo");
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
 }
